@@ -1,5 +1,7 @@
 // Packages
 import React, { Component } from 'react'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { pause, powerOff, stepForward } from '@fortawesome/fontawesome-free-solid'
 // components
 import Button from 'components/Button'
 
@@ -8,56 +10,101 @@ export default class Radio extends Component {
     super(props)
 
     this.decideIfDisplayLinesShouldAnimate = this.decideIfDisplayLinesShouldAnimate.bind(this)
+    this.nextSong = this.nextSong.bind(this)
 
     this.innerDisplay = null
+    this.innerDisplayWidth = null
+    this.songs = [
+      { title: 'Telegraph Road', artist: 'Dire Straits', release: 'Love Over Gold' },
+      { title: 'In Chains', artist: 'The War on Drugs', release: 'A Deeper Understanding' },
+      { title: 'Suburbia', artist: 'Spleen United', release: 'Neanderthal' },
+      { title: 'Scenes From an Italian Restaurant', artist: 'Billy Joel', release: 'The Stranger' },
+      { title: 'When You Were Young', artist: 'The Killers', release: "Sam's Town" },
+      { title: 'Map of the Problematique', artist: 'Muse', release: 'Black Holes and Revelations' },
+      { title: 'Holy Mountains', artist: 'System of a Down', release: 'Hypnotize' },
+      { title: 'Glory', artist: 'Dizzy Mizz Lizzy', release: 'Dizzy Mizz Lizzy' },
+      { title: 'Rosanna', artist: 'Toto', release: 'Toto IV' },
+      { title: 'Sleeping My Day Away', artist: 'D-A-D', release: 'No Fuel Left for the Pilgrims' },
+      { title: "Takin' It To the Streets", artist: 'The Doobie Brothers', release: "Takin' It To the Streets" },
+      { title: 'Kalifornia', artist: 'Kashmir', release: 'No Balance Palace' },
+      { title: 'Master of Puppets', artist: 'Metallica', release: 'Master of Puppets' },
+      { title: 'New Slang', artist: 'The Shins', release: 'Oh, Inverted World' },
+      { title: 'Abrasive', artist: 'Ratatat', release: 'Magnifique' },
+      { title: 'Knights of Cydonia', artist: 'Muse', release: 'Black Holes and Revelations' },
+      { title: 'Gold Ring', artist: 'Spleen United', release: 'Godspeed Into The Mainstream' },
+      { title: 'Something Happened on the Way To Heaven', artist: 'Phil Collins', release: '...But Seriously' },
+      { title: 'Hide and Seek', artist: 'Imogen Heap', release: 'Speak For Yourself' },
+      { title: 'Beyond', artist: 'Daft Punk', release: 'Random Access Memories' },
+      { title: 'Dom sa!', artist: 'Veronica Maggio', release: 'Den Förste Är Alltid Gratis' },
+      { title: 'Shooting Up Sunshine', artist: 'Reptile Youth', release: 'Reptile Youth' },
+      { title: 'We Are Not Your Friends', artist: 'Veto', release: "There's A Beat In All Machines" },
+      { title: 'Question!', artist: 'System of a Down', release: 'Mezmerize' },
+      { title: '8(circle)', artist: 'Bon Iver', release: '22, A Million' },
+      { title: 'Mockingbird', artist: 'Eminem', release: 'Encore' }
+    ]
 
     this.state = {
-      innerDisplayWidth: null,
-      lineLengths: []
+      lineLengths: [],
+      songPlaying: this.songs[0]
     }
   }
 
   componentDidMount() {
+    this.innerDisplayWidth = this.innerDisplay.clientWidth
     this.decideIfDisplayLinesShouldAnimate()
   }
 
   // Determines if each display line is longer than the inner display - and turns on animation for that line if it is
   decideIfDisplayLinesShouldAnimate() {
     const displayLines = document.getElementsByClassName( 'display_line' )
-    let lineLengths = this.state.lineLengths
+
+    for ( let displayLine of displayLines ) displayLine.classList.remove( 'display_line-animate' ) // Restarting any animation
+
+    let lineLengths = []
     if ( displayLines.length ) {
       for ( let displayLine of displayLines ) {
         lineLengths.push(displayLine.clientWidth)
         if ( displayLine.clientWidth > this.innerDisplay.clientWidth - 16 ) displayLine.classList.add( 'display_line-animate' )
-      }
-    }
-    this.setState({
-      innerDisplayWidth: this.innerDisplay.clientWidth,
-      lineLengths
-    })
+        else displayLine.classList.remove( 'display_line-animate' ) }}
+    this.setState({ lineLengths })
+  }
+
+  nextSong() {
+    const indexOfCurrentSong = this.songs.map( (song, index) => { if ( song.title === this.state.songPlaying.title ) return index }).filter(isFinite)[0]
+    const indexOfNextSong = indexOfCurrentSong + 1 === this.songs.length ? 0 : indexOfCurrentSong + 1
+    this.setState(
+      { songPlaying: this.songs[indexOfNextSong] },
+      () => this.decideIfDisplayLinesShouldAnimate())
   }
 
   render() {
     // Calculate the length of each line relative to inner display width, so that animation can be adjusted with durations (%) that make each line flow smoothly
     // 60 as the animation 'pauses' at 60% (see keyframes below)
     const displayToLineRatios = []
-    for ( let i = 0; i < this.state.lineLengths.length; i++ ) displayToLineRatios.push(60 - (60 / (1 + this.state.lineLengths[i] / this.state.innerDisplayWidth)))
+    for ( let i = 0; i < this.state.lineLengths.length; i++ ) displayToLineRatios.push(60 - (60 / (1 + this.state.lineLengths[i] / this.innerDisplayWidth)))
+
+    const { ...songPlaying } = this.state.songPlaying
 
     return(
       <RadioWithStyle
-        lineLengths={this.state.lineLengths}
-        innerDisplayWidth={this.state.innerDisplayWidth}
-        displayToLineRatios={displayToLineRatios}>
+        lineLengths={ this.state.lineLengths }
+        innerDisplayWidth={ this.innerDisplayWidth }
+        displayToLineRatios={ displayToLineRatios }>
         <div className="display">
-          <div className="display_inner" ref={(innerDisplay) => this.innerDisplay = innerDisplay}>
-            <p className="display_line">Sultans of Swing</p>
-            <p className="display_line">Dire Straits &ndash; The Very Best Of Dire Straits</p>
+          <div className="display_inner" ref={ (innerDisplay) => this.innerDisplay = innerDisplay }>
+            <p className="display_line">{ songPlaying.title }</p>
+            <p className="display_line">{ songPlaying.artist } &ndash; { songPlaying.release }</p>
           </div>
         </div>
-        <ButtonWrap>
-          <Button label="Play" />
-        </ButtonWrap>
-        <div className="antenna" />
+        <Buttons>
+          <FontAwesomeIcon icon="power-off" size="lg" />
+          <FontAwesomeIcon icon="pause" size="lg" />
+          <FontAwesomeIcon icon="step-forward" size="lg" onClick={ this.nextSong } />
+        </Buttons>
+        <div className="antenna">
+          <div className="antenna_rod"></div>
+          <div className="antenna_top"></div>
+        </div>
       </RadioWithStyle>
     )
   }
@@ -68,7 +115,7 @@ export default class Radio extends Component {
 import styled, { keyframes } from 'styled-components'
 import { transparentize } from 'polished'
 // Utils
-import { colors, fonts } from 'utils/vars'
+import { colors, fonts, transitions } from 'utils/vars'
 import { scaler } from 'utils/helpers'
 
 const RadioWithStyle = styled.div`
@@ -77,11 +124,10 @@ const RadioWithStyle = styled.div`
   height: 100px;
   background-color: ${colors.base.darker[2]};
   border-radius: ${scaler(1)};
-  overflow: hidden;
   box-shadow: 0px 10px 40px 0px rgba(0,0,0,0.4);
 
-  &::before,
-  &::after {
+  &:before,
+  &:after {
     content: '';
     position: absolute;
     left: 0;
@@ -90,8 +136,16 @@ const RadioWithStyle = styled.div`
     background-color: ${colors.base.lighter[3]};
     backface-visibility: hidden; /* Smoothing edges on transform-rotated elements in WebKit */
   }
-  &::before { top: 0; }
-  &::after { bottom: 0; }
+  &:before {
+    top: 0;
+    border-top-left-radius: ${scaler(1)};
+    border-top-right-radius: ${scaler(1)};
+  }
+  &:after {
+    bottom: 0;
+    border-bottom-left-radius: ${scaler(1)};
+    border-bottom-right-radius: ${scaler(1)};
+  }
 
   .display {
     position: absolute;
@@ -103,7 +157,7 @@ const RadioWithStyle = styled.div`
     border-radius: ${scaler(0.5)};
     overflow: hidden;
 
-    &::after { /* Highlight */
+    &:after { /* Highlight */
       content: '';
       position: absolute;
       display: block;
@@ -152,25 +206,76 @@ const RadioWithStyle = styled.div`
       }
 
       &-animate {
-        &:first-child  { animation: slideLeftThrough1 12s 2s linear infinite; }
-        &:last-child { animation: slideLeftThrough2 12s 2s linear infinite; }
+        &:first-child { animation: slideLeftThrough1 12s 2s linear infinite; }
+        &:last-child  { animation: slideLeftThrough2 12s 2s linear infinite; }
       }
     }
   }
 
   .antenna {
     position: absolute;
-    width: 16px;
-    height: 16px;
-    top: ${scaler(2)};
-    right: ${scaler(2)};
+    width: 20px;
+    height: 20px;
+    top: ${scaler(-3)};
+    right: ${scaler(-2)};
     border-radius: 50%;
-    background: radial-gradient(white, ${colors.light.darker[6]} 20%, ${colors.base.lighter[10]});
+    background: linear-gradient(-35deg, ${colors.base.darker[10]}, white);
+    transform-style: preserve-3d;
+    perspective: 800;
+
+    &_rod {
+      position: absolute;
+      width: 40px;
+      height: 4px;
+      right: calc( 100% - 18px );
+      top: calc( 100% + 6px );
+      background: linear-gradient( ${colors.base.lighter[6]} 50%, white 70%, ${colors.base.darker[4]} );
+      transform: rotate3d(15, 0, 50, 127deg);
+      border-radius: 2px;
+    }
+
+    &_top {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      left: 1px;
+      top: 1px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+  }
+
+  @supports (-webkit-filter: blur()) or (filter: blur()) {
+    .antenna_top:before {
+      content: '';
+      display: block;
+      border: 9px solid;
+      border-color: ${colors.base.lighter[5]} white ${colors.base.darker[8]};
+      border-radius: 50%;
+      transform: rotate(-35deg);
+      filter: blur(2px);
+    }
   }
 `
 
-const ButtonWrap = styled.div`
+const Buttons = styled.div`
   position: absolute;
-  bottom: ${scaler(2)};
+  bottom: ${scaler(3)};
   right: ${scaler(2)};
+  padding-left: ${scaler(2)};
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
+  color: ${colors.light.default};
+
+  svg {
+    cursor: pointer;
+    transition: ${transitions.buttonHover.up};
+    &:hover { opacity: 0.8; }
+  }
+
+  .fa-play {
+    margin-left: 3px;
+    width: 15px;
+  }
 `

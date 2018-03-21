@@ -38,7 +38,6 @@ export default class App extends Component {
         { school: 'Danish School of Media', course: 'Visual Communication', degree: "Bachelor's Degree" },
         { school: 'IT University of Copenhagen', course: 'Digital Design & Communication', degree: "Masters's Degree" }
       ],
-      passions: [ 'Designing', 'Developing', 'Sports', 'Music' ],
       links: [
         { label: 'Website', url: 'https://type16.com' },
         { label: 'GitHub', url: 'https://github.com/refrase' },
@@ -154,7 +153,7 @@ const Background = styled.div`
     ),
     #563232; /* Wood. Alt: #da6d42 */
 
-  &::before {
+  &:before {
     content: '';
     position: fixed;
     top: 0;
@@ -166,7 +165,7 @@ const Background = styled.div`
     background-size: 800px;
   }
 
-  &::after {
+  &:after {
     content: '';
     position: fixed;
     top: -20vh;

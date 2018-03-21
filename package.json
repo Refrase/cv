@@ -7,6 +7,9 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.4",
+    "@fortawesome/fontawesome-free-solid": "^5.0.8",
+    "@fortawesome/react-fontawesome": "^0.0.17",
     "polished": "^1.9.2",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",

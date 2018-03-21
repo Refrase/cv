@@ -155,7 +155,7 @@ const Wrap = styled.div`
 
   .listWrap-jobs {
     position: relative;
-    &::before {
+    &:before {
       content: '';
       position: absolute;
       width: 100%;
@@ -166,7 +166,7 @@ const Wrap = styled.div`
       border-bottom: 1px dashed ${colors.complementary.lighter[10]};
     }
 
-    &::after {
+    &:after {
       content: 'Current job';
       position: absolute;
       right: 0px;
@@ -193,7 +193,7 @@ const Wrap = styled.div`
     &.itemAdded {
       max-height: 318px; {/* 5 jobs visible */}
 
-      &::after {
+      &:after {
         content: '';
         position: absolute;
         bottom: 0;
@@ -219,7 +219,7 @@ const Wrap = styled.div`
       color: ${colors.base.default};
       z-index: 1;
 
-      &::before {
+      &:before {
         content: '';
         position: absolute;
         bottom: 0;
@@ -235,7 +235,7 @@ const Wrap = styled.div`
       }
 
       &:hover {
-        &::before {
+        &:before {
           background-color: ${colors.light.darker[0]};
           transform: scaleY(1) translateY(-1px);
         }
