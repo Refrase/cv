@@ -6,27 +6,48 @@ import Button from 'components/Button'
 export default class Radio extends Component {
   constructor(props) {
     super(props)
+
+    this.decideIfDisplayLinesShouldAnimate = this.decideIfDisplayLinesShouldAnimate.bind(this)
+
     this.innerDisplay = null
+
     this.state = {
-      lengthOfLongestDisplayLine: null
+      innerDisplayWidth: null,
+      lineLengths: []
     }
   }
+
   componentDidMount() {
+    this.decideIfDisplayLinesShouldAnimate()
+  }
+
+  // Determines if each display line is longer than the inner display - and turns on animation for that line if it is
+  decideIfDisplayLinesShouldAnimate() {
     const displayLines = document.getElementsByClassName( 'display_line' )
-    const displayLineLengths = []
+    let lineLengths = this.state.lineLengths
     if ( displayLines.length ) {
       for ( let displayLine of displayLines ) {
-        displayLineLengths.push(displayLine.clientWidth)
-        if ( displayLine.clientWidth > this.innerDisplay.clientWidth - 16 ) {
-          displayLine.classList.add( 'display_line-animate' )
-        }
+        lineLengths.push(displayLine.clientWidth)
+        if ( displayLine.clientWidth > this.innerDisplay.clientWidth - 16 ) displayLine.classList.add( 'display_line-animate' )
       }
     }
-    this.setState({ lengthOfLongestDisplayLine: Math.max(...displayLineLengths) })
+    this.setState({
+      innerDisplayWidth: this.innerDisplay.clientWidth,
+      lineLengths
+    })
   }
+
   render() {
+    // Calculate the length of each line relative to inner display width, so that animation can be adjusted with durations (%) that make each line flow smoothly
+    // 60 as the animation 'pauses' at 60% (see keyframes below)
+    const displayToLineRatios = []
+    for ( let i = 0; i < this.state.lineLengths.length; i++ ) displayToLineRatios.push(60 - (60 / (1 + this.state.lineLengths[i] / this.state.innerDisplayWidth)))
+
     return(
-      <RadioWithStyle lengthOfLongestDisplayLine={this.state.lengthOfLongestDisplayLine}>
+      <RadioWithStyle
+        lineLengths={this.state.lineLengths}
+        innerDisplayWidth={this.state.innerDisplayWidth}
+        displayToLineRatios={displayToLineRatios}>
         <div className="display">
           <div className="display_inner" ref={(innerDisplay) => this.innerDisplay = innerDisplay}>
             <p className="display_line">Sultans of Swing</p>
@@ -114,15 +135,26 @@ const RadioWithStyle = styled.div`
 
       &:not(:last-child) { margin-bottom: 2px; }
 
-      @keyframes slideLeftThrough {
-        0%      { transform: translate3d( 0, 0, 0 ); }
-        25%     { transform: translate3d( -${props => props.lengthOfLongestDisplayLine}px, 0, 0 ); }
-        25.001% { transform: translate3d( ${props => props.lengthOfLongestDisplayLine}px, 0, 0 ); }
-        50%     { transform: translate3d( 0, 0, 0 ); }
-        100%    { transform: translate3d( 0, 0, 0 ); }
+      @keyframes slideLeftThrough1 {
+        0%                                                { transform: translate3d( 0, 0, 0 ); }
+        ${props => props.displayToLineRatios[0]}%         { transform: translate3d( -${props => props.lineLengths[0] + 16}px, 0, 0 ); }
+        ${props => props.displayToLineRatios[0] + 0.001}% { transform: translate3d( ${props => props.innerDisplayWidth}px, 0, 0 ); }
+        60%                                               { transform: translate3d( 0, 0, 0 ); }
+        100%                                              { transform: translate3d( 0, 0, 0 ); }
       }
 
-      &-animate { animation: slideLeftThrough 20s 2s linear infinite; }
+      @keyframes slideLeftThrough2 {
+        0%                                                { transform: translate3d( 0, 0, 0 ); }
+        ${props => props.displayToLineRatios[1]}%         { transform: translate3d( -${props => props.lineLengths[1] + 16}px, 0, 0 ); }
+        ${props => props.displayToLineRatios[1] + 0.001}% { transform: translate3d( ${props => props.innerDisplayWidth}px, 0, 0 ); }
+        60%                                               { transform: translate3d( 0, 0, 0 ); }
+        100%                                              { transform: translate3d( 0, 0, 0 ); }
+      }
+
+      &-animate {
+        &:first-child  { animation: slideLeftThrough1 12s 2s linear infinite; }
+        &:last-child { animation: slideLeftThrough2 12s 2s linear infinite; }
+      }
     }
   }
 
