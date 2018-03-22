@@ -61,6 +61,7 @@ const ButtonRoundWithStyle = styled.button`
     border-radius: 50%;
     box-shadow: 0px 0px 0px 5px ${colors.alert.darker[6]};
     transition: ${transitions.buttonHover.up};
+    text-shadow: 0 0 2px black;
 
     span {
       position: relative;
