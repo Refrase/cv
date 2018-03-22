@@ -37,7 +37,7 @@ const ButtonRoundWithStyle = styled.button`
   height: 150px;
   min-width: 150px;
   min-height: 150px;
-  background: radial-gradient( ${colors.base.lighter[10]} 56%, white 64%, ${colors.base.default} );
+  background: radial-gradient( ${colors.base.lighter[8]} 57%, white 66%, ${colors.base.darker[4]} );
   box-shadow: 0px 0px 7px 2px rgba(0,0,0,0.4), 15px 15px 30px 0px rgba(0,0,0,0.3);
 
   &:focus { outline: 0; }
@@ -59,7 +59,7 @@ const ButtonRoundWithStyle = styled.button`
     border: 1px solid ${colors.alert.darker[1]};
     color: white;
     border-radius: 50%;
-    box-shadow: 0px 0px 0px 5px ${colors.alert.darker[8]};
+    box-shadow: 0px 0px 0px 5px ${colors.alert.darker[6]};
     transition: ${transitions.buttonHover.up};
 
     span {
@@ -73,13 +73,13 @@ const ButtonRoundWithStyle = styled.button`
       background-color: ${colors.alert.lighter[0]};
       border-color: ${colors.alert.lighter[0]};
       transform: scale(1.02);
-      box-shadow: 0px 0px 0px 4px ${colors.alert.darker[8]};
+      box-shadow: 0px 0px 0px 4px ${colors.alert.darker[6]};
     }
 
     &:active {
       transition: ${transitions.buttonHover.down};
       transform: scale(0.98);
-      box-shadow: 0px 0px 0px 5px ${colors.alert.darker[8]};
+      box-shadow: 0px 0px 0px 5px ${colors.alert.darker[6]};
     }
   }
 `
