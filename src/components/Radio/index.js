@@ -125,8 +125,8 @@ export default class Radio extends Component {
           </div>
         </div>
         <Buttons>
-          <FontAwesomeIcon icon="power-off" size="2x" onClick={ this.toggleOff } />
-          <FontAwesomeIcon icon="step-forward" size="2x" onClick={ this.nextSong } />
+          <FontAwesomeIcon icon="power-off" size="lg" onClick={ this.toggleOff } />
+          <FontAwesomeIcon icon="step-forward" size="lg" onClick={ this.nextSong } />
         </Buttons>
         <div className="antenna">
           <div className="antenna_bottom">
@@ -156,7 +156,7 @@ const RadioWithStyle = styled.div`
   height: 100px;
   background-color: ${colors.base.darker[2]};
   border-radius: ${scaler(1)};
-  box-shadow: 0px 10px 40px 0px rgba(0,0,0,0.4);
+  box-shadow: 0px 0px 8px 3px rgba(0,0,0,0.4), 20px 20px 40px 0px rgba(0,0,0,0.4);
 
   &:before,
   &:after {

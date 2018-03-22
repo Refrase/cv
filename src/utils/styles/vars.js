@@ -7,6 +7,7 @@ export const colors = {
   base: { default: '#3e474f' },
   signal: { default: '#5fcf80' },
   complementary: { default: '#2976F2' },
+  alert: { default: '#f21010' },
   light: { default: '#edeff0' }
 }
 // Adding color shades for each color

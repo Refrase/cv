@@ -77,6 +77,7 @@ const Wrap = styled.div`
   border-top-right-radius: ${scaler(2)};
   border-top-left-radius: ${scaler(2)};
   color: ${colors.base.default};
+  box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.3);
 
   .currentJob-enter {
     transform: translateY( -100% );

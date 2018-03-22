@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 // Components
 import Radio from 'components/Radio'
-import Button from 'components/Button'
+import ButtonRound from 'components/ButtonRound'
 import Cv from 'components/Cv'
 
 export default class App extends Component {
@@ -43,7 +43,7 @@ export default class App extends Component {
         { label: 'GitHub', url: 'https://github.com/refrase' },
         { label: 'LinkedIn', url: 'https://www.linkedin.com/in/andreas-reffstrup-rasmussen-689b1060/' }
       ],
-      buttonLabel: 'Seal destiny <span class="icon">&#128591;</span>'
+      buttonWords: [ 'Seal', 'destiny', '<span class="icon">&#128591;</span>' ]
     }
 
     this.employers = [ 'Google', 'Lego', "McDonald's", 'Apple', 'Type16', '7-Eleven', 'Shell', 'Netcompany', 'The Police', 'State Ministry', 'NASA', 'Denmark', 'Earth', 'FBI' ]
@@ -71,7 +71,7 @@ export default class App extends Component {
       jobs,
       jobChanges,
       jobChanged: true,
-      buttonLabel: 'Seal destiny again <span class="icon">&#128591;</span>'
+      buttonWords: [ 'Seal', 'destiny', 'again' ]
     })
   }
 
@@ -82,12 +82,6 @@ export default class App extends Component {
         <RadioWrap>
           <Radio />
         </RadioWrap>
-        <ButtonWrap>
-          <Button
-            label={ this.state.buttonLabel }
-            withIcon
-            onClick={ () => this.sealDestiny( 'Netcompany', 'Ambitious Design-passionate Developer' ) } />
-        </ButtonWrap>
         <CvWrap>
           <Cv
             meta={ this.state.meta }
@@ -96,6 +90,11 @@ export default class App extends Component {
             educations={ this.state.educations }
             jobChanged={ this.state.jobChanged }  />
         </CvWrap>
+        <ButtonRoundWrap>
+          <ButtonRound
+            words={ this.state.buttonWords }
+            onClick={ () => this.sealDestiny( 'Netcompany', 'Ambitious Design-passionate Developer' ) } />
+        </ButtonRoundWrap>
       </Scrollbars>
     )
   }
@@ -151,7 +150,7 @@ const Background = styled.div`
       rgba(0,0,0,0.35) ${plankWidth * 8}px, rgba(0,0,0,0.35) ${plankWidth * 9}px,
       rgba(0,0,0,0.45) ${plankWidth * 9}px, rgba(0,0,0,0.45) ${plankWidth * 10}px
     ),
-    #563232; /* Wood. Alt: #da6d42 */
+    #ffa54f; /* Wood. Alts: #da6d42, #563232 */
 
   &:before {
     content: '';
@@ -168,10 +167,10 @@ const Background = styled.div`
   &:after {
     content: '';
     position: fixed;
-    top: -20vh;
+    top: -30vh;
     left: -20vw;
     width: 140vw;
-    height: 100vh;
+    height: 120vh;
     background:
       url(${ noiseTile }),
       linear-gradient(to top, ${colors.base.darker[4]}, ${colors.base.darker[5]} );
@@ -184,17 +183,17 @@ const Background = styled.div`
 
 const RadioWrap = styled.div`
   position: absolute;
-  top: ${scaler(20)};
-  left: ${scaler(20)};
+  top: ${scaler(16)};
+  left: ${scaler(12)};
   transform: rotate(-12deg);
 `
 
-const ButtonWrap = styled.div`
+const ButtonRoundWrap = styled.div`
   position: absolute;
-  top: ${scaler(2)};
-  right: ${scaler(2)};
-  opacity: 0;
-  animation: ${fadeIn} 300ms 1200ms ease-out forwards;
+  top: ${scaler(4)};
+  right: 310px;
+  ${'' /* opacity: 0; */}
+  ${'' /* animation: ${fadeIn} 300ms 1200ms ease-out forwards; */}
 `
 
 const CvWrap = styled.div`
@@ -203,6 +202,6 @@ const CvWrap = styled.div`
   right: 5vw;
   top: ${scaler(10)};
   backface-visibility: hidden; { /* Smoothing edges on transform-rotated elements in WebKit */ }
-  transform: translateY( -100vh );
-  animation: ${slideOver} 800ms cubic-bezier(0.4,0.75,0.6,1) forwards;
+  ${'' /* transform: translateY( -100vh ); */}
+  ${'' /* animation: ${slideOver} 800ms cubic-bezier(0.4,0.75,0.6,1) forwards; */}
 `
