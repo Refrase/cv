@@ -62,8 +62,8 @@ CvItem.propTypes = {
 import styled from 'styled-components'
 import { transparentize } from 'polished'
 // Utils
-import { colors, fonts, transitions } from 'utils/vars'
-import { scaler } from 'utils/helpers'
+import { colors, fonts, transitions } from 'utils/styles/vars'
+import { scaler } from 'utils/styles/helpers'
 
 const imageHeight = scaler(16);
 

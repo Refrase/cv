@@ -19,8 +19,8 @@ Button.propTypes = {
 // Packages
 import styled from 'styled-components'
 // Utils
-import { colors, fonts, transitions } from 'utils/vars'
-import { scaler } from 'utils/helpers'
+import { colors, fonts, transitions } from 'utils/styles/vars'
+import { scaler } from 'utils/styles/helpers'
 
 const ButtonWithStyle = styled.button`
   position: relative;

@@ -2,8 +2,11 @@
 import React, { Component } from 'react'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { pause, powerOff, stepForward } from '@fortawesome/fontawesome-free-solid'
-// components
+// Utils
+import { currentTime } from 'utils/scripts/time'
+// Components
 import Button from 'components/Button'
+
 
 export default class Radio extends Component {
   constructor(props) {
@@ -11,9 +14,11 @@ export default class Radio extends Component {
 
     this.decideIfDisplayLinesShouldAnimate = this.decideIfDisplayLinesShouldAnimate.bind(this)
     this.nextSong = this.nextSong.bind(this)
+    this.toggleOff = this.toggleOff.bind(this)
 
     this.innerDisplay = null
     this.innerDisplayWidth = null
+    this.updatedTime = null
     this.songs = [
       { title: 'Telegraph Road', artist: 'Dire Straits', release: 'Love Over Gold' },
       { title: 'In Chains', artist: 'The War on Drugs', release: 'A Deeper Understanding' },
@@ -45,13 +50,20 @@ export default class Radio extends Component {
 
     this.state = {
       lineLengths: [],
-      songPlaying: this.songs[0]
+      songPlaying: this.songs[0],
+      off: false,
+      currentTime: null
     }
   }
 
   componentDidMount() {
     this.innerDisplayWidth = this.innerDisplay.clientWidth
     this.decideIfDisplayLinesShouldAnimate()
+    this.updatedTime = setInterval( () => { this.setState({ currentTime: currentTime() }) }, 1000 )
+  }
+
+  componentWillUnmount() {
+    clearInterval( this.updatedTime )
   }
 
   // Determines if each display line is longer than the inner display - and turns on animation for that line if it is
@@ -70,11 +82,18 @@ export default class Radio extends Component {
   }
 
   nextSong() {
+    if ( this.state.off ) return
     const indexOfCurrentSong = this.songs.map( (song, index) => { if ( song.title === this.state.songPlaying.title ) return index }).filter(isFinite)[0]
     const indexOfNextSong = indexOfCurrentSong + 1 === this.songs.length ? 0 : indexOfCurrentSong + 1
     this.setState(
       { songPlaying: this.songs[indexOfNextSong] },
-      () => this.decideIfDisplayLinesShouldAnimate())
+      () => this.decideIfDisplayLinesShouldAnimate() )
+  }
+
+  toggleOff() {
+    this.setState(
+      { off: !this.state.off },
+      () => this.decideIfDisplayLinesShouldAnimate() )
   }
 
   render() {
@@ -92,18 +111,31 @@ export default class Radio extends Component {
         displayToLineRatios={ displayToLineRatios }>
         <div className="display">
           <div className="display_inner" ref={ (innerDisplay) => this.innerDisplay = innerDisplay }>
-            <p className="display_line">{ songPlaying.title }</p>
-            <p className="display_line">{ songPlaying.artist } &ndash; { songPlaying.release }</p>
+            { !this.state.off ? (
+              <div>
+                <p className="display_line">{ songPlaying.title }</p>
+                <p className="display_line">{ songPlaying.artist } &ndash; { songPlaying.release }</p>
+              </div>
+            ) : (
+              <div>
+                <p className="display_line">Standby</p>
+                <p className="display_line">{ this.state.currentTime }</p>
+              </div>
+            ) }
           </div>
         </div>
         <Buttons>
-          <FontAwesomeIcon icon="power-off" size="lg" />
-          <FontAwesomeIcon icon="pause" size="lg" />
-          <FontAwesomeIcon icon="step-forward" size="lg" onClick={ this.nextSong } />
+          <FontAwesomeIcon icon="power-off" size="2x" onClick={ this.toggleOff } />
+          <FontAwesomeIcon icon="step-forward" size="2x" onClick={ this.nextSong } />
         </Buttons>
         <div className="antenna">
+          <div className="antenna_bottom">
+            <div className="antenna_bottom_inner" />
+          </div>
           <div className="antenna_rod"></div>
-          <div className="antenna_top"></div>
+          <div className="antenna_top">
+            <div className="antenna_top_inner" />
+          </div>
         </div>
       </RadioWithStyle>
     )
@@ -115,8 +147,8 @@ export default class Radio extends Component {
 import styled, { keyframes } from 'styled-components'
 import { transparentize } from 'polished'
 // Utils
-import { colors, fonts, transitions } from 'utils/vars'
-import { scaler } from 'utils/helpers'
+import { colors, fonts, transitions } from 'utils/styles/vars'
+import { scaler } from 'utils/styles/helpers'
 
 const RadioWithStyle = styled.div`
   position: relative;
@@ -136,11 +168,13 @@ const RadioWithStyle = styled.div`
     background-color: ${colors.base.lighter[3]};
     backface-visibility: hidden; /* Smoothing edges on transform-rotated elements in WebKit */
   }
+
   &:before {
     top: 0;
     border-top-left-radius: ${scaler(1)};
     border-top-right-radius: ${scaler(1)};
   }
+
   &:after {
     bottom: 0;
     border-bottom-left-radius: ${scaler(1)};
@@ -182,6 +216,7 @@ const RadioWithStyle = styled.div`
 
     .display_line {
       display: inline-block;
+      min-width: 100%;
       color: ${colors.light.default};
       font-family: 'VT323', monospace;
       font-size: ${fonts.sizes.xLarge};
@@ -218,10 +253,26 @@ const RadioWithStyle = styled.div`
     height: 20px;
     top: ${scaler(-3)};
     right: ${scaler(-2)};
-    border-radius: 50%;
-    background: linear-gradient(-35deg, ${colors.base.darker[10]}, white);
-    transform-style: preserve-3d;
-    perspective: 800;
+
+    &_bottom {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      right: calc( 100% + 9px );
+      top: calc( 100% + 20px );
+      border-radius: 50%;
+      background: linear-gradient(-35deg, ${colors.base.darker[10]}, white);
+
+      &_inner {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        right: 1px;
+        top: 1px;
+        border-radius: 50%;
+        background-color: ${colors.base.darker[6]};
+      }
+    }
 
     &_rod {
       position: absolute;
@@ -229,24 +280,33 @@ const RadioWithStyle = styled.div`
       height: 4px;
       right: calc( 100% - 18px );
       top: calc( 100% + 6px );
-      background: linear-gradient( ${colors.base.lighter[6]} 50%, white 70%, ${colors.base.darker[4]} );
-      transform: rotate3d(15, 0, 50, 127deg);
-      border-radius: 2px;
+      background: linear-gradient( ${colors.base.darker[2]} 10%, ${colors.base.darker[4]} 40%, white );
+      transform: rotateZ(123deg);
+      border-radius: 4px;
     }
 
     &_top {
       position: absolute;
-      width: 18px;
-      height: 18px;
-      left: 1px;
-      top: 1px;
       border-radius: 50%;
+      background: linear-gradient(-35deg, ${colors.base.darker[10]}, white);
+      width: 100%;
+      height: 100%;
       overflow: hidden;
+
+      &_inner {
+        position: absolute;
+        width: calc( 100% - 2px);
+        height: calc( 100% - 2px);
+        left: 1px;
+        top: 1px;
+        border-radius: 50%;
+        background: radial-gradient(white 5%, ${colors.light.darker[2]} 20%, ${colors.light.darker[14]});
+      }
     }
   }
 
   @supports (-webkit-filter: blur()) or (filter: blur()) {
-    .antenna_top:before {
+    .antenna_top_inner:before {
       content: '';
       display: block;
       border: 9px solid;
@@ -265,17 +325,13 @@ const Buttons = styled.div`
   padding-left: ${scaler(2)};
   width: 30%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   color: ${colors.light.default};
 
   svg {
     cursor: pointer;
     transition: ${transitions.buttonHover.up};
     &:hover { opacity: 0.8; }
-  }
-
-  .fa-play {
-    margin-left: 3px;
-    width: 15px;
+    &:not(:last-child) { margin-right: ${scaler(1.5)}; }
   }
 `

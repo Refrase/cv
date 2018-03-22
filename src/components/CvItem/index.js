@@ -26,9 +26,9 @@ CvItem.propTypes = {
 // Packages
 import styled from 'styled-components'
 // Utils
-import { colors, fonts } from 'utils/vars'
-import { scaler } from 'utils/helpers'
-import { fadeIn, slideDown } from 'utils/animations'
+import { colors, fonts } from 'utils/styles/vars'
+import { scaler } from 'utils/styles/helpers'
+import { fadeIn, slideDown } from 'utils/styles/animations'
 
 const Wrap = styled.li`
   position: relative;

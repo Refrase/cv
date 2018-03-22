@@ -28,8 +28,8 @@ export default class App extends Component {
         },
         previous: [
           { employer: 'Zetland', position: 'UI Designer &amp; Frontend Developer' },
-          { employer: 'Politiken', position: 'Newsgraphics Designer' },
-          { employer: 'FC Nordsjælland', position: 'Graphic & Motion Designer' }
+          { employer: 'Politiken', position: 'Digital Newsgraphics Developer' },
+          { employer: 'FC Nordsjælland', position: 'Graphic Designer' }
         ]
       },
       jobChanges: 3,
@@ -109,9 +109,9 @@ import { transparentize } from 'polished'
 import noiseTile from 'assets/images/noisetile-800-100-4-monochrome.png' // http://noisepng.com/
 import woodTexture from 'assets/images/wood-texture.jpeg'
 // Utils
-import { colors, fonts } from 'utils/vars'
-import { scaler } from 'utils/helpers'
-import { fadeIn, slideOver } from 'utils/animations'
+import { colors, fonts } from 'utils/styles/vars'
+import { scaler } from 'utils/styles/helpers'
+import { fadeIn, slideOver } from 'utils/styles/animations'
 
 const plankWidth = 240
 

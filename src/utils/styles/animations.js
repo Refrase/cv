@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { scaler } from 'utils/helpers';
+import { scaler } from 'utils/styles/helpers';
 
 export const fadeIn = keyframes`
   from { opacity: 0; }
