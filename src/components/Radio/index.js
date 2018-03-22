@@ -52,7 +52,7 @@ export default class Radio extends Component {
       lineLengths: [],
       songPlaying: this.songs[0],
       on: false,
-      currentTime: null
+      currentTime: currentTime()
     }
   }
 
