@@ -178,8 +178,8 @@ const Wrap = styled.div`
       border-bottom-left-radius: ${scaler(0.5)};
       padding: ${scaler(0.5)};
       text-transform: uppercase;
-      font-size: ${fonts.sizes.xSmall};
-      font-weight: 500;
+      font-size: ${fonts.sizes.xxSmall};
+      font-weight: 600;
       letter-spacing: 0.5px;
       white-space: nowrap;
     }

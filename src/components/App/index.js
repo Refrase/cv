@@ -79,9 +79,6 @@ export default class App extends Component {
     return(
       <Scrollbars>
         <Background />
-        <RadioWrap>
-          <Radio />
-        </RadioWrap>
         <CvWrap>
           <Cv
             meta={ this.state.meta }
@@ -95,6 +92,11 @@ export default class App extends Component {
             words={ this.state.buttonWords }
             onClick={ () => this.sealDestiny( 'Netcompany', 'Ambitious Design-passionate Developer' ) } />
         </ButtonRoundWrap>
+        <RadioWrap>
+          <div className="rotateWrap">
+            <Radio />
+          </div>
+        </RadioWrap>
       </Scrollbars>
     )
   }
@@ -110,7 +112,7 @@ import woodTexture from 'assets/images/wood-texture.jpeg'
 // Utils
 import { colors, fonts } from 'utils/styles/vars'
 import { scaler } from 'utils/styles/helpers'
-import { fadeIn, slideDownIntoView } from 'utils/styles/animations'
+import { fadeIn, slideDownIntoView, fallDown } from 'utils/styles/animations'
 
 const plankWidth = 240
 
@@ -182,10 +184,12 @@ const Background = styled.div`
 `
 
 const RadioWrap = styled.div`
+  .rotateWrap { transform: rotateZ(-12deg); }
   position: absolute;
   top: ${scaler(16)};
   left: ${scaler(12)};
-  transform: rotate(-12deg);
+  opacity: 0;
+  animation: ${fallDown} 100ms 1000ms ease-in forwards;
 `
 
 const ButtonRoundWrap = styled.div`

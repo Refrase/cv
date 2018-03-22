@@ -27,6 +27,7 @@ export const fonts = {
     system: '"Work Sans", sans-serif'
   },
   sizes: {
+    xxSmall: '0.9rem',
     xSmall: '1rem',
     small: '1.2rem',
     base: '1.4rem',
