@@ -5,6 +5,7 @@ import { Scrollbars } from 'react-custom-scrollbars'
 import Radio from 'components/Radio'
 import ButtonRound from 'components/ButtonRound'
 import Cv from 'components/Cv'
+import PostIt from 'components/PostIt'
 
 export default class App extends Component {
   constructor(props) {
@@ -80,23 +81,32 @@ export default class App extends Component {
       <Scrollbars>
         <Background />
         <CvWrap>
-          <Cv
-            meta={ this.state.meta }
-            jobs={ this.state.jobs }
-            links={ this.state.links }
-            educations={ this.state.educations }
-            jobChanged={ this.state.jobChanged }  />
+          <div className="rotateWrap">
+            <Cv
+              meta={ this.state.meta }
+              jobs={ this.state.jobs }
+              links={ this.state.links }
+              educations={ this.state.educations }
+              jobChanged={ this.state.jobChanged }  />
+          </div>
         </CvWrap>
         <ButtonRoundWrap>
-          <ButtonRound
-            words={ this.state.buttonWords }
-            onClick={ () => this.sealDestiny( 'Netcompany', 'Ambitious Design-passionate Developer' ) } />
+          <div className="rotateWrap">
+            <ButtonRound
+              words={ this.state.buttonWords }
+              onClick={ () => this.sealDestiny( 'Netcompany', 'Ambitious Design-passionate Developer' ) } />
+          </div>
         </ButtonRoundWrap>
         <RadioWrap>
           <div className="rotateWrap">
             <Radio />
           </div>
         </RadioWrap>
+        <PostItWrap>
+          <div className="rotateWrap">
+            <PostIt text="Remember to create CV for job applications"/>
+          </div>
+        </PostItWrap>
       </Scrollbars>
     )
   }
@@ -158,8 +168,8 @@ const Background = styled.div`
     content: '';
     position: fixed;
     top: 0;
-    left: 0;
-    width: 100vw;
+    left: -20vw;
+    width: 140vw;
     height: 200vh;
     opacity: 0.05;
     background: url( ${ woodTexture } );
@@ -183,29 +193,38 @@ const Background = styled.div`
   }
 `
 
+const CvWrap = styled.div`
+  .rotateWrap { transform: rotateZ(2deg); }
+  position: absolute;
+  display: block;
+  right: 140px;
+  top: ${scaler(10)};
+  backface-visibility: hidden; { /* Smoothing edges on transform-rotated elements in WebKit */ }
+  ${'' /* transform: translateY( -100vh );
+  animation: ${slideDownIntoView`[24, 2]`} 400ms cubic-bezier(0.4,0.75,0.6,1) forwards; */}
+`
+
+const ButtonRoundWrap = styled.div`
+  .rotateWrap { transform: rotateZ(-16deg); }
+  position: absolute;
+  top: ${scaler(4)};
+  right: 360px;
+  ${'' /* transform: translateY( -100vh );
+  animation: ${slideDownIntoView`[100, -16]`} 400ms 200ms cubic-bezier(0.4,0.75,0.6,1) forwards; */}
+`
+
 const RadioWrap = styled.div`
   .rotateWrap { transform: rotateZ(-12deg); }
   position: absolute;
   top: ${scaler(16)};
   left: ${scaler(12)};
-  opacity: 0;
-  animation: ${fallDown} 100ms 1000ms ease-in forwards;
+  ${'' /* opacity: 0;
+  animation: ${fallDown} 100ms 1000ms ease-in forwards; */}
 `
 
-const ButtonRoundWrap = styled.div`
+const PostItWrap = styled.div`
+  .rotateWrap { transform: rotateZ(7deg); }
   position: absolute;
-  top: ${scaler(4)};
-  right: 260px;
-  transform: translateY( -100vh );
-  animation: ${slideDownIntoView`[100, -16]`} 400ms 200ms cubic-bezier(0.4,0.75,0.6,1) forwards;
-`
-
-const CvWrap = styled.div`
-  position: absolute;
-  display: block;
-  right: 5vw;
-  top: ${scaler(10)};
-  backface-visibility: hidden; { /* Smoothing edges on transform-rotated elements in WebKit */ }
-  transform: translateY( -100vh );
-  animation: ${slideDownIntoView`[24, 2]`} 400ms cubic-bezier(0.4,0.75,0.6,1) forwards;
+  bottom: ${scaler(40)};
+  left: 260px;
 `

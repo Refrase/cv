@@ -218,7 +218,7 @@ const RadioWithStyle = styled.div`
       display: inline-block;
       min-width: 100%;
       color: ${colors.light.default};
-      font-family: 'VT323', monospace;
+      font-family: ${fonts.families.digital};
       font-size: ${fonts.sizes.xLarge};
       white-space: nowrap;
 

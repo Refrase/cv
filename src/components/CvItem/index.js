@@ -6,8 +6,8 @@ export default class CvItem extends Component {
   render() {
     const { primaryInfo, secondaryInfo, tertiaryInfo, highlight } = this.props
     return(
-      <Wrap className={ highlight ? 'highlight' : null }>
-        <div className={ `primaryInfo ${this.props.highlight ? 'highlight' : null}`} dangerouslySetInnerHTML={ { __html: primaryInfo } } />
+      <Wrap className={ highlight ? 'highlight' : '' }>
+        <div className={ `primaryInfo ${this.props.highlight ? 'highlight' : ''}`} dangerouslySetInnerHTML={ { __html: primaryInfo } } />
         <div className="secondaryInfo" dangerouslySetInnerHTML={ { __html: secondaryInfo } } />
         { tertiaryInfo ? ( <div className="tertiaryInfo" dangerouslySetInnerHTML={ { __html: tertiaryInfo } } /> ) : null }
       </Wrap>

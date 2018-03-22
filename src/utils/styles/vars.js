@@ -24,7 +24,9 @@ export const fonts = {
   families: {
     sans: '"Nunito Sans", sans-serif',
     serif: '"Merriweather", serif',
-    system: '"Work Sans", sans-serif'
+    system: '"Work Sans", sans-serif',
+    digital: '"VT323", monospace',
+    hand: '"Caveat", cursive',
   },
   sizes: {
     xxSmall: '0.9rem',
@@ -35,6 +37,11 @@ export const fonts = {
     xLarge: '2.0rem',
     xxLarge: '2.8rem'
   }
+}
+
+// ----- SHADOWS ----- //
+export const shadows = {
+  paper: '0px 0px 3px 1px rgba(0,0,0,0.3)',
 }
 
 // ----- TRANSITIONS ----- //

@@ -62,7 +62,7 @@ CvItem.propTypes = {
 import styled from 'styled-components'
 import { transparentize } from 'polished'
 // Utils
-import { colors, fonts, transitions } from 'utils/styles/vars'
+import { colors, fonts, shadows, transitions } from 'utils/styles/vars'
 import { scaler } from 'utils/styles/helpers'
 
 const imageHeight = scaler(16);
@@ -77,7 +77,7 @@ const Wrap = styled.div`
   border-top-right-radius: ${scaler(2)};
   border-top-left-radius: ${scaler(2)};
   color: ${colors.base.default};
-  box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.3);
+  box-shadow: ${shadows.paper};
 
   .currentJob-enter {
     transform: translateY( -100% );
