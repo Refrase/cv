@@ -110,7 +110,7 @@ import woodTexture from 'assets/images/wood-texture.jpeg'
 // Utils
 import { colors, fonts } from 'utils/styles/vars'
 import { scaler } from 'utils/styles/helpers'
-import { fadeIn, slideOver } from 'utils/styles/animations'
+import { fadeIn, slideDownIntoView } from 'utils/styles/animations'
 
 const plankWidth = 240
 
@@ -191,9 +191,9 @@ const RadioWrap = styled.div`
 const ButtonRoundWrap = styled.div`
   position: absolute;
   top: ${scaler(4)};
-  right: 300px;
+  right: 260px;
   transform: translateY( -100vh );
-  animation: ${slideOver} 500ms 1800ms ease-out forwards;
+  animation: ${slideDownIntoView`[100, -16]`} 400ms 200ms cubic-bezier(0.4,0.75,0.6,1) forwards;
 `
 
 const CvWrap = styled.div`
@@ -203,5 +203,5 @@ const CvWrap = styled.div`
   top: ${scaler(10)};
   backface-visibility: hidden; { /* Smoothing edges on transform-rotated elements in WebKit */ }
   transform: translateY( -100vh );
-  animation: ${slideOver} 800ms cubic-bezier(0.4,0.75,0.6,1) forwards;
+  animation: ${slideDownIntoView`[24, 2]`} 400ms cubic-bezier(0.4,0.75,0.6,1) forwards;
 `
