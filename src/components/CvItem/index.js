@@ -43,19 +43,20 @@ const Wrap = styled.li`
   .primaryInfo {
     font-weight: 800;
     font-family: ${fonts.families.sans};
-    font-size: ${fonts.sizes.large};
     letter-spacing: 0.5px;
   }
 
   .secondaryInfo {
     margin-top: ${scaler(0.5)}
-    font-size: ${fonts.sizes.small};
+    font-size: ${fonts.sizes.xSmall};
+    font-weight: 500;
     font-family: ${fonts.families.serif};
   }
 
   .tertiaryInfo {
-    margin-top: ${scaler(1)}
-    font-size: ${fonts.sizes.small};
+    margin-top: ${scaler(0.75)};
+    font-size: ${fonts.sizes.xSmall};
+    font-weight: 600;
     color: ${colors.base.lighter[6]};
   }
 `

@@ -192,8 +192,8 @@ const ButtonRoundWrap = styled.div`
   position: absolute;
   top: ${scaler(4)};
   right: 310px;
-  ${'' /* opacity: 0; */}
-  ${'' /* animation: ${fadeIn} 300ms 1200ms ease-out forwards; */}
+  opacity: 0;
+  animation: ${fadeIn} 300ms 1200ms ease-out forwards;
 `
 
 const CvWrap = styled.div`
@@ -202,6 +202,6 @@ const CvWrap = styled.div`
   right: 5vw;
   top: ${scaler(10)};
   backface-visibility: hidden; { /* Smoothing edges on transform-rotated elements in WebKit */ }
-  ${'' /* transform: translateY( -100vh ); */}
-  ${'' /* animation: ${slideOver} 800ms cubic-bezier(0.4,0.75,0.6,1) forwards; */}
+  transform: translateY( -100vh );
+  animation: ${slideOver} 800ms cubic-bezier(0.4,0.75,0.6,1) forwards;
 `

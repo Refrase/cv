@@ -72,7 +72,7 @@ const Wrap = styled.div`
   display: flex;
   flex-direction: column;
   background-color: white;
-  width: ${scaler(36)};
+  width: ${scaler(32)};
   border-radius: ${scaler(1)};
   border-top-right-radius: ${scaler(2)};
   border-top-left-radius: ${scaler(2)};
@@ -108,7 +108,7 @@ const Wrap = styled.div`
       margin-left: ${scaler(2)};
       font-weight: 600;
       font-family: ${fonts.families.sans};
-      font-size: ${fonts.sizes.xLarge};
+      font-size: ${fonts.sizes.large};
       color: white;
       letter-spacing: 0.5px;
       white-space: pre-line;
@@ -131,7 +131,7 @@ const Wrap = styled.div`
   .content {
     position: relative;
     width: 100%;
-    padding-bottom: ${scaler(2)};
+    padding-bottom: ${scaler(1)};
 
     .listWrap {  margin: 0;  }
 
@@ -160,7 +160,7 @@ const Wrap = styled.div`
       content: '';
       position: absolute;
       width: 100%;
-      height: 70px;
+      height: 64px;
       top: 0;
       left: 0;
       background-color: ${colors.complementary.lighter[16]};
@@ -187,12 +187,12 @@ const Wrap = styled.div`
 
   .jobs {
     position: relative;
-    max-height: 268px;
+    max-height: 244px;
     transition: max-height 200ms ease-out;
     overflow: hidden;
 
     &.itemAdded {
-      max-height: 318px; {/* 5 jobs visible */}
+    max-height: 292px; {/* 5 jobs visible */}
 
       &:after {
         content: '';
@@ -207,7 +207,7 @@ const Wrap = styled.div`
   }
 
   .links {
-    padding: ${scaler(2)};
+    padding: ${scaler(1)} ${scaler(2)};
     width: 100%;
     display: flex;
     justify-content: space-around;
@@ -215,7 +215,6 @@ const Wrap = styled.div`
     .link {
       position: relative;
       text-decoration: none;
-      font-size: ${fonts.sizes.large};
       font-weight: 500;
       color: ${colors.base.default};
       z-index: 1;
