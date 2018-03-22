@@ -14,14 +14,14 @@ export default class Radio extends Component {
 
     this.decideIfDisplayLinesShouldAnimate = this.decideIfDisplayLinesShouldAnimate.bind(this)
     this.nextSong = this.nextSong.bind(this)
-    this.toggleOff = this.toggleOff.bind(this)
+    this.toggleOn = this.toggleOn.bind(this)
 
     this.innerDisplay = null
     this.innerDisplayWidth = null
     this.updatedTime = null
     this.songs = [
       { title: 'Telegraph Road', artist: 'Dire Straits', release: 'Love Over Gold' },
-      { title: 'In Chains', artist: 'The War on Drugs', release: 'A Deeper Understanding' },
+      { title: 'Nothing to Find', artist: 'The War on Drugs', release: 'A Deeper Understanding' },
       { title: 'Suburbia', artist: 'Spleen United', release: 'Neanderthal' },
       { title: 'Scenes From an Italian Restaurant', artist: 'Billy Joel', release: 'The Stranger' },
       { title: 'When You Were Young', artist: 'The Killers', release: "Sam's Town" },
@@ -51,7 +51,7 @@ export default class Radio extends Component {
     this.state = {
       lineLengths: [],
       songPlaying: this.songs[0],
-      off: false,
+      on: false,
       currentTime: null
     }
   }
@@ -82,7 +82,7 @@ export default class Radio extends Component {
   }
 
   nextSong() {
-    if ( this.state.off ) return
+    if ( !this.state.on ) return
     const indexOfCurrentSong = this.songs.map( (song, index) => { if ( song.title === this.state.songPlaying.title ) return index }).filter(isFinite)[0]
     const indexOfNextSong = indexOfCurrentSong + 1 === this.songs.length ? 0 : indexOfCurrentSong + 1
     this.setState(
@@ -90,9 +90,9 @@ export default class Radio extends Component {
       () => this.decideIfDisplayLinesShouldAnimate() )
   }
 
-  toggleOff() {
+  toggleOn() {
     this.setState(
-      { off: !this.state.off },
+      { on: !this.state.on },
       () => this.decideIfDisplayLinesShouldAnimate() )
   }
 
@@ -111,7 +111,7 @@ export default class Radio extends Component {
         displayToLineRatios={ displayToLineRatios }>
         <div className="display">
           <div className="display_inner" ref={ (innerDisplay) => this.innerDisplay = innerDisplay }>
-            { !this.state.off ? (
+            { this.state.on ? (
               <div>
                 <p className="display_line">{ songPlaying.title }</p>
                 <p className="display_line">{ songPlaying.artist } &ndash; { songPlaying.release }</p>
@@ -125,7 +125,7 @@ export default class Radio extends Component {
           </div>
         </div>
         <Buttons>
-          <FontAwesomeIcon icon="power-off" size="lg" onClick={ this.toggleOff } />
+          <FontAwesomeIcon icon="power-off" size="lg" onClick={ this.toggleOn } />
           <FontAwesomeIcon icon="step-forward" size="lg" onClick={ this.nextSong } />
         </Buttons>
         <div className="antenna">

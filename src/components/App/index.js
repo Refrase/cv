@@ -191,9 +191,9 @@ const RadioWrap = styled.div`
 const ButtonRoundWrap = styled.div`
   position: absolute;
   top: ${scaler(4)};
-  right: 310px;
-  opacity: 0;
-  animation: ${fadeIn} 300ms 1200ms ease-out forwards;
+  right: 300px;
+  transform: translateY( -100vh );
+  animation: ${slideOver} 500ms 1800ms ease-out forwards;
 `
 
 const CvWrap = styled.div`
