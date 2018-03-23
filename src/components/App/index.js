@@ -29,6 +29,7 @@ export default class App extends Component {
         },
         previous: [
           { employer: 'Zetland', position: 'UI Designer &amp; Frontend Developer' },
+          { employer: 'Danish School of Media', position: 'Advisory Board Member, Graphic Design' },
           { employer: 'Politiken', position: 'Digital Newsgraphics Developer' },
           { employer: 'FC Nordsjælland', position: 'Graphic Designer' }
         ]
@@ -225,6 +226,6 @@ const RadioWrap = styled.div`
 const PostItWrap = styled.div`
   .rotateWrap { transform: rotateZ(7deg); }
   position: absolute;
-  bottom: ${scaler(40)};
+  top: ${scaler(44)};
   left: 260px;
 `
