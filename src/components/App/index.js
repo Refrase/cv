@@ -6,6 +6,8 @@ import Radio from 'components/Radio'
 import ButtonRound from 'components/ButtonRound'
 import Cv from 'components/Cv'
 import PostIt from 'components/PostIt'
+// Assets
+import keyboard from 'assets/images/keyboard.svg'
 
 export default class App extends Component {
   constructor(props) {
@@ -98,6 +100,9 @@ export default class App extends Component {
               onClick={ () => this.sealDestiny( 'Netcompany', 'Ambitious Design-passionate Developer' ) } />
           </div>
         </ButtonRoundWrap>
+        <KeyboardWrap>
+          <img src={ keyboard } alt="Keyboard" />
+        </KeyboardWrap>
         <RadioWrap>
           <div className="rotateWrap">
             <Radio />
@@ -214,6 +219,18 @@ const ButtonRoundWrap = styled.div`
   animation: ${slideDownIntoView`[100, -16]`} 400ms 200ms cubic-bezier(0.4,0.75,0.6,1) forwards; */}
 `
 
+const KeyboardWrap = styled.div`
+  position: absolute;
+  top: ${scaler(38)};
+  left: ${scaler(16)};
+  transform: rotateZ(-4deg);
+  width: 800px;
+  img {
+    width: 100%;
+    backface-visibility: hidden; { /* Smoothing edges on transform-rotated elements in WebKit */ }
+  }
+`
+
 const RadioWrap = styled.div`
   .rotateWrap { transform: rotateZ(-12deg); }
   position: absolute;
@@ -224,8 +241,8 @@ const RadioWrap = styled.div`
 `
 
 const PostItWrap = styled.div`
-  .rotateWrap { transform: rotateZ(7deg); }
+  .rotateWrap { transform: rotateZ(11deg); }
   position: absolute;
-  top: ${scaler(44)};
-  left: 260px;
+  top: ${scaler(12)};
+  left: ${scaler(66)};
 `
