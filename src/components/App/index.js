@@ -225,6 +225,8 @@ const KeyboardWrap = styled.div`
   left: ${scaler(16)};
   transform: rotateZ(-4deg);
   width: 800px;
+  border-radius: 12px;
+  box-shadow: 0px 0px 4px 2px rgba(0,0,0,0.4), 5px 5px 10px 0px rgba(0,0,0,0.4);
   img {
     width: 100%;
     backface-visibility: hidden; { /* Smoothing edges on transform-rotated elements in WebKit */ }

@@ -32,12 +32,12 @@ import { fadeIn, slideDown } from 'utils/styles/animations'
 
 const Wrap = styled.li`
   position: relative;
-  padding: ${scaler(1)} ${scaler(2)};
+  padding: ${scaler(0.75)} ${scaler(2)};
 
   &.highlight {
     padding: ${scaler(2)};
     padding-top: calc( ${scaler(2)} - 3px );
-    margin-bottom: ${scaler(1)};
+    margin-bottom: ${scaler(0.75)};
   }
 
   .primaryInfo {

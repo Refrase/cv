@@ -187,12 +187,12 @@ const Wrap = styled.div`
 
   .jobs {
     position: relative;
-    max-height: 296px;
+    max-height: 274px;
     transition: max-height 200ms ease-out;
     overflow: hidden;
 
     &.itemAdded {
-    max-height: 344px; {/* 5 jobs visible */}
+    max-height: 320px; {/* 5 jobs visible */}
 
       &:after {
         content: '';
