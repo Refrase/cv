@@ -6,8 +6,7 @@ import Radio from 'components/Radio'
 import ButtonRound from 'components/ButtonRound'
 import Cv from 'components/Cv'
 import PostIt from 'components/PostIt'
-// Assets
-import keyboard from 'assets/images/keyboard.svg'
+import Keyboard from 'components/Keyboard'
 
 export default class App extends Component {
   constructor(props) {
@@ -101,7 +100,7 @@ export default class App extends Component {
           </div>
         </ButtonRoundWrap>
         <KeyboardWrap>
-          <img src={ keyboard } alt="Keyboard" />
+          <Keyboard />
         </KeyboardWrap>
         <RadioWrap>
           <div className="rotateWrap">
@@ -224,13 +223,6 @@ const KeyboardWrap = styled.div`
   top: ${scaler(38)};
   left: ${scaler(16)};
   transform: rotateZ(-4deg);
-  width: 800px;
-  border-radius: 12px;
-  box-shadow: 0px 0px 4px 2px rgba(0,0,0,0.4), 5px 5px 10px 0px rgba(0,0,0,0.4);
-  img {
-    width: 100%;
-    backface-visibility: hidden; { /* Smoothing edges on transform-rotated elements in WebKit */ }
-  }
 `
 
 const RadioWrap = styled.div`
