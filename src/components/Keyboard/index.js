@@ -6,6 +6,10 @@ import Key from 'components/Key'
 import { keys } from 'data/keys'
 
 export default class Keyboard extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { capsLock: false }
+  }
   render() {
     return(
       <KeyboardWithStyle>
@@ -15,8 +19,18 @@ export default class Keyboard extends Component {
         <div className="keyWrap">
           <Key className="enter" paths={ keys[41].paths } width={ keys[41].width } height={ keys[41].height } />
         </div>
-        { keys.slice(42, 76).map( ( key, index ) => {
-          return ( <Key key={ index } className={ index === 30 ? 'space' : '' } paths={ key.paths } width={ key.width } height={ key.height } /> )
+        <div className="keyWrap" onClick={ () => this.setState({ capsLock: !this.state.capsLock }) }>
+          <Key paths={ keys[42].paths } width={ keys[42].width } height={ keys[42].height }>
+            { this.state.capsLock ? (
+              <g>
+                <circle cx="10" cy="12" r="3" fill="#f4f3f4" />
+                <circle cx="10" cy="12" r="2" fill="#1ef873" />
+              </g>
+            ) : null }
+          </Key>
+        </div>
+        { keys.slice(43, 76).map( ( key, index ) => {
+          return ( <Key key={ index } className={ index === 29 ? 'space' : '' } paths={ key.paths } width={ key.width } height={ key.height } /> )
         })}
         <div className="keyWrap keysUpDownWrap">
           <div className="keysUpDown">
@@ -42,10 +56,13 @@ const KeyboardWithStyle = styled.div`
   box-shadow: 0px 0px 4px 2px rgba(0,0,0,0.4), 5px 5px 10px 0px rgba(0,0,0,0.4);
   overflow: auto;
 
-
-  .keyWrap { display: inline-block; }
-  .keysUpDownWrap {
+  .keyWrap {
+    position: relative;
     float: left;
+    display: inline-block;
+  }
+
+  .keysUpDownWrap {
     .keysUpDown {
       display: flex;
       flex-direction: column;

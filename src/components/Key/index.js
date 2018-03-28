@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 export default class Key extends Component {
   render() {
-    const { className, width, height } = this.props
+    const { className, width, height, children } = this.props
     const { ...paths } = this.props.paths
 
     const defaultWidth = 52.917
@@ -22,6 +22,7 @@ export default class Key extends Component {
           <g className={ `plasticAndPrint ${ width ? 'rectangular' : '' }` }>
             <rect className="plastic" x="1" y="1" width={ width ? width - 2 : defaultWidth - 2 } height={ height ? height - 2 : defaultHeight - 2 } rx="3" ry="3" />
             <path className="print" d={ paths.print } />
+            { children }
           </g>
         </svg>
       </KeyWithStyle>
@@ -33,7 +34,8 @@ Key.propTypes = {
   className: PropTypes.string,
   paths: PropTypes.object,
   width: PropTypes.number,
-  height: PropTypes.number
+  height: PropTypes.number,
+  children: PropTypes.node
 }
 
 // ----- STYLING ----- //
