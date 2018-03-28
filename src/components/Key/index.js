@@ -112,7 +112,7 @@ const KeyWithStyle = styled.div`
   &:active {
     &.enter:after { transform: scale3d(0.985, 0.985, 1) translateY(-1px); }
     &.arrow {
-      &:after { transform: scale3d(0.985, 0.985, 1); width: calc(100% - 3px); }
+      &:after { transform: scaleX(0.985); width: calc(100% - 3px); }
       &.up:after { background: linear-gradient( ${keyColor}, rgba(0,0,0,0.35) 75%, ${holeColor} ), white; }
       &.down:after { background: linear-gradient( ${holeColor}, rgba(0,0,0,0.35) 25%, ${keyColor} ), white; }
     }
