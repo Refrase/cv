@@ -7,6 +7,8 @@ import ButtonRound from 'components/ButtonRound'
 import Cv from 'components/Cv'
 import PostIt from 'components/PostIt'
 import Keyboard from 'components/Keyboard'
+// Assets
+import fifaDisc from 'assets/images/fifa98_disc.svg'
 
 export default class App extends Component {
   constructor(props) {
@@ -46,7 +48,8 @@ export default class App extends Component {
         { label: 'GitHub', url: 'https://github.com/refrase' },
         { label: 'LinkedIn', url: 'https://www.linkedin.com/in/andreas-reffstrup-rasmussen-689b1060/' }
       ],
-      buttonWords: [ 'Seal', 'destiny', '<span class="icon">&#128591;</span>' ]
+      buttonWords: [ 'Seal', 'destiny', '<span class="icon">&#128591;</span>' ],
+      discEjected: false
     }
 
     this.employers = [ 'Google', 'Lego', "McDonald's", 'Apple', 'Type16', '7-Eleven', 'Shell', 'Netcompany', 'The Police', 'State Ministry', 'NASA', 'Denmark', 'Earth', 'FBI' ]
@@ -78,6 +81,10 @@ export default class App extends Component {
     })
   }
 
+  ejectDisc() {
+
+  }
+
   render() {
     return(
       <Scrollbars>
@@ -99,8 +106,14 @@ export default class App extends Component {
               onClick={ () => this.sealDestiny( 'Netcompany', 'Ambitious Design-passionate Developer' ) } />
           </div>
         </ButtonRoundWrap>
+        <FifaDiscWrap className={ this.state.discEjected ? 'ejected' : '' }>
+          <img src={ fifaDisc } alt="FIFA98 disc"/>
+        </FifaDiscWrap>
         <KeyboardWrap>
-          <Keyboard />
+          <Keyboard onEject={ () => {
+            console.log('dsf')
+            this.setState({ discEjected: !this.state.discEjected })
+          } } />
         </KeyboardWrap>
         <RadioWrap>
           <div className="rotateWrap">
@@ -196,6 +209,20 @@ const Background = styled.div`
     border-bottom: 6px solid ${colors.base.darker[6]};
     backface-visibility: hidden; { /* Smoothing edges on transform-rotated elements in WebKit */ }
   }
+`
+
+const FifaDiscWrap = styled.div`
+  position: fixed;
+  width: 320px;
+  top: 0;
+  left: 42vw;
+  z-index: 10;
+  transform: translateY(-100%) rotate(0deg);
+  transition: transform 600ms cubic-bezier(0.4,0.75,0.6,1);
+
+  &.ejected { transform: translateY(-50%) rotate(3450deg); }
+
+  img { width: 100%; }
 `
 
 const CvWrap = styled.div`

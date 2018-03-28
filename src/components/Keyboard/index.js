@@ -1,5 +1,6 @@
 // Packages
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 // Components
 import Key from 'components/Key'
 // Data
@@ -10,10 +11,17 @@ export default class Keyboard extends Component {
     super(props)
     this.state = { capsLock: false }
   }
+
   render() {
     return(
       <KeyboardWithStyle>
-        { keys.slice(0, 41).map( ( key, index ) => {
+        { keys.slice(0, 13).map( ( key, index ) => {
+          return ( <Key key={ index } paths={ key.paths } width={ key.width } height={ key.height } /> )
+        })}
+        <div className="keyWrap" onClick={ this.props.onEject }>
+          <Key paths={ keys[13].paths } width={ keys[13].width } height={ keys[13].height } />
+        </div>
+        { keys.slice(14, 41).map( ( key, index ) => {
           return ( <Key key={ index } paths={ key.paths } width={ key.width } height={ key.height } /> )
         })}
         <div className="keyWrap">
@@ -43,6 +51,8 @@ export default class Keyboard extends Component {
     )
   }
 }
+
+Keyboard.propTypes = { onEject: PropTypes.func }
 
 // ----- STYLING ----- //
 // Packages
