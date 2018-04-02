@@ -217,6 +217,8 @@ const FifaDiscWrap = styled.div`
   top: 0;
   left: 42vw;
   z-index: 10;
+  border-radius: 50%;
+  box-shadow: 0px 0px 100px 10px rgba(0,0,0,0.75);
   transform: translateY(-100%) rotate(0deg);
   transition: transform 600ms cubic-bezier(0.4,0.75,0.6,1);
 
