@@ -1,6 +1,9 @@
 // Packages
 import React, { Component } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
+// Utils
+import { getURLParams } from 'utils/scripts/params'
+import { titleCase } from 'utils/scripts/string'
 // Components
 import Radio from 'components/Radio'
 import ButtonRound from 'components/ButtonRound'
@@ -57,18 +60,20 @@ export default class App extends Component {
 
   }
 
-  sealDestiny(employer, position) {
+  sealDestiny() {
     const employerRandom = this.employers[Math.floor(Math.random()*this.employers.length)]
     const positionRandom = this.positions[Math.floor(Math.random()*this.positions.length)]
+
+    const params = getURLParams()
+    const employer =
+      this.state.jobChanges === 3 && params && params.position && params.employer ? titleCase(params.employer) : this.state.jobChanges === 3 ? 'Google' : employerRandom
+    const position =
+      this.state.jobChanges === 3 && params && params.position && params.employer ? titleCase(params.position) : this.state.jobChanges === 3 ? 'CTO' : positionRandom
 
     let previous = this.state.jobs.previous.slice()
     previous.unshift(this.state.jobs.current)
 
-    const current = {
-      ...this.state.jobs.current,
-      employer: this.state.jobChanges > 3 ? employerRandom : employer,
-      position: this.state.jobChanges > 3 ? positionRandom : position
-    }
+    const current = { ...this.state.jobs.current, employer, position }
 
     const jobs = { ...this.state.jobs, current, previous }
     const jobChanges = this.state.jobChanges + 1
@@ -97,9 +102,7 @@ export default class App extends Component {
         </CvWrap>
         <ButtonRoundWrap>
           <div className="rotateWrap">
-            <ButtonRound
-              words={ this.state.buttonWords }
-              onClick={ () => this.sealDestiny( 'Netcompany', 'Ambitious Design-passionate Developer' ) } />
+            <ButtonRound words={ this.state.buttonWords } onClick={ () => this.sealDestiny() } />
           </div>
         </ButtonRoundWrap>
         <FifaDiscWrap className={ this.state.discEjected ? 'ejected' : '' }>
