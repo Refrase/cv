@@ -81,10 +81,6 @@ export default class App extends Component {
     })
   }
 
-  ejectDisc() {
-
-  }
-
   render() {
     return(
       <Scrollbars>
@@ -110,10 +106,7 @@ export default class App extends Component {
           <img src={ fifaDisc } alt="FIFA98 disc"/>
         </FifaDiscWrap>
         <KeyboardWrap>
-          <Keyboard onEject={ () => {
-            console.log('dsf')
-            this.setState({ discEjected: !this.state.discEjected })
-          } } />
+          <Keyboard onEject={ () => this.setState({ discEjected: !this.state.discEjected }) } />
         </KeyboardWrap>
         <RadioWrap>
           <div className="rotateWrap">

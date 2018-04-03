@@ -6,6 +6,11 @@ import PropTypes from 'prop-types'
 import CvItem from 'components/CvItem'
 
 export default class Cv extends Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    // Making sure the job list is only updated (and thereby animated) if the joblist is actually updated
+    if ( this.props.jobs === nextProps.jobs ) return false
+    else return true
+  }
   render() {
     const { ...meta } = this.props.meta
     const { ...jobs } = this.props.jobs
@@ -19,9 +24,9 @@ export default class Cv extends Component {
           <div className="category">Experience</div>
           <div className="listWrap listWrap-jobs">
             <ul className={ `jobs ${ this.props.jobChanged ? 'itemAdded' : '' }` }>
-              <ReactCSSTransitionGroup transitionName="currentJob" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
+              <ReactCSSTransitionGroup transitionName="currentJob" transitionEnterTimeout={ 200 } transitionLeaveTimeout={ 200 }>
                 <CvItem key={ Math.random() } primaryInfo={ jobs.current.employer } secondaryInfo={ jobs.current.position } highlight />
-                { this.props.jobs.previous.slice(0,6).map( (job, i) => {
+                { jobs.previous.slice(0,6).map( (job, i) => {
                   return( <CvItem key={ `${ job.employer + job.position + Math.random(i) }` } primaryInfo={ job.employer } secondaryInfo={ job.position } /> )
                 })}
               </ReactCSSTransitionGroup>
