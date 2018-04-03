@@ -90,11 +90,11 @@ const KeyWithStyle = styled.div`
       transition: background 50ms ease-out;
     }
     &.up:after {
-      background: linear-gradient( ${keyColor}, rgba(0,0,0,0.35) ), white;
+      background: linear-gradient( ${keyColor}, rgba(0,0,0,0.25) ), white;
       bottom: 0px;
     }
     &.down:after {
-      background: linear-gradient( rgba(0,0,0,0.35), ${keyColor} ), white;
+      background: linear-gradient( rgba(0,0,0,0.25), ${keyColor} ), white;
       top: 1px;
     }
   }
@@ -115,8 +115,8 @@ const KeyWithStyle = styled.div`
     &.enter:after { transform: scale3d(0.985, 0.985, 1) translateY(-1px); }
     &.arrow {
       &:after { transform: scaleX(0.985); width: calc(100% - 3px); }
-      &.up:after { background: linear-gradient( ${keyColor}, rgba(0,0,0,0.35) 75%, ${holeColor} ), white; }
-      &.down:after { background: linear-gradient( ${holeColor}, rgba(0,0,0,0.35) 25%, ${keyColor} ), white; }
+      &.up:after { background: linear-gradient( ${keyColor}, rgba(0,0,0,0.25) 75%, ${holeColor} ), white; }
+      &.down:after { background: linear-gradient( ${holeColor}, rgba(0,0,0,0.25) 25%, ${keyColor} ), white; }
     }
     .plasticAndPrint { transform: scale3d(0.985, 0.985, 0);
       &.rectangular { transform: scale3d(0.991, 0.985, 1) !important; }

@@ -19,7 +19,7 @@ export default class Keyboard extends Component {
           return ( <Key key={ index } paths={ key.paths } width={ key.width } height={ key.height } /> )
         })}
         <div className="keyWrap" onClick={ this.props.onEject }>
-          <Key paths={ keys[13].paths } width={ keys[13].width } height={ keys[13].height } />
+          <Key className="eject" paths={ keys[13].paths } width={ keys[13].width } height={ keys[13].height } />
         </div>
         { keys.slice(14, 41).map( ( key, index ) => {
           return ( <Key key={ index } paths={ key.paths } width={ key.width } height={ key.height } /> )
@@ -40,8 +40,8 @@ export default class Keyboard extends Component {
         { keys.slice(43, 76).map( ( key, index ) => {
           return ( <Key key={ index } className={ index === 29 ? 'space' : '' } paths={ key.paths } width={ key.width } height={ key.height } /> )
         })}
-        <div className="keyWrap keysUpDownWrap">
-          <div className="keysUpDown">
+        <div className="keyWrap">
+          <div className="upDown">
             <Key className="arrow up" paths={ keys[76].paths } width={ keys[76].width } height={ keys[76].height } />
             <Key className="arrow down" paths={ keys[77].paths } width={ keys[77].width } height={ keys[77].height } />
           </div>
@@ -72,24 +72,36 @@ const KeyboardWithStyle = styled.div`
     display: inline-block;
   }
 
-  .keysUpDownWrap {
-    .keysUpDown {
-      display: flex;
-      flex-direction: column;
-      padding-top: 8px;
-      padding-left: 8px;
-      > div {
-        margin: 0px;
-        &:first-child {
-          &:before {
-            content: '';
-            position: absolute;
-            top: calc( 100% - 4px );
-            right: 0;
-            width: 100%;
-            height: 8px;
-            background-color: #444;
-          }
+  .eject {
+    &:after { /* Adding used look to eject button to call to action */
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate3d( -50%, -50%, 0 );
+      width: 50%;
+      height: 50%;
+      z-index: 1;
+      background: radial-gradient( rgba(255,255,255,0.85), transparent 70% );
+    }
+  }
+
+  .upDown {
+    display: flex;
+    flex-direction: column;
+    padding-top: 8px;
+    padding-left: 8px;
+    > div {
+      margin: 0px;
+      &:first-child {
+        &:before {
+          content: '';
+          position: absolute;
+          top: calc( 100% - 4px );
+          right: 0;
+          width: 100%;
+          height: 8px;
+          background-color: #444;
         }
       }
     }
