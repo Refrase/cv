@@ -48,7 +48,7 @@ const ButtonRoundWithStyle = styled.button`
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    cursor: pointer;
+    cursor: grab;
     min-width: 100%;
     min-height: 100%;
     font-size: ${fonts.sizes.large};
