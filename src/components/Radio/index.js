@@ -1,5 +1,6 @@
 // Packages
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { pause, powerOff, stepForward } from '@fortawesome/fontawesome-free-solid'
 // Utils
@@ -14,7 +15,6 @@ export default class Radio extends Component {
 
     this.decideIfDisplayLinesShouldAnimate = this.decideIfDisplayLinesShouldAnimate.bind(this)
     this.nextSong = this.nextSong.bind(this)
-    this.toggleOn = this.toggleOn.bind(this)
 
     // Non-state fields
     // While this.props is set up by React itself and this.state has a special meaning,
@@ -25,7 +25,6 @@ export default class Radio extends Component {
 
     this.state = {
       lineLengths: [],
-      on: false,
       currentTime: currentTime(),
       innerDisplay: null,
       innerDisplayWidth: null,
@@ -74,6 +73,12 @@ export default class Radio extends Component {
     clearInterval( this.timerInterval )
   }
 
+  componentWillReceiveProps( nextProps ) {
+    if ( nextProps.on != this.props.on ) {
+      setTimeout( () => { this.decideIfDisplayLinesShouldAnimate() }, 0 ) // Timeout to put on the back of callstack making sure the linelengths state is updated before
+    }
+  }
+
   // Determines if each display line is longer than the inner display - and turns on animation for that line if it is
   decideIfDisplayLinesShouldAnimate() {
     const displayLines = document.getElementsByClassName( 'display_line' )
@@ -90,17 +95,11 @@ export default class Radio extends Component {
   }
 
   nextSong() {
-    if ( !this.state.on ) return
+    if ( !this.props.on ) return
     const indexOfCurrentSong = this.state.songs.map( (song, index) => { if ( song.title === this.state.songPlaying.title ) return index }).filter(isFinite)[0]
     const indexOfNextSong = indexOfCurrentSong + 1 === this.state.songs.length ? 0 : indexOfCurrentSong + 1
     this.setState(
       { songPlaying: this.state.songs[indexOfNextSong] },
-      () => this.decideIfDisplayLinesShouldAnimate() )
-  }
-
-  toggleOn() {
-    this.setState(
-      { on: !this.state.on },
       () => this.decideIfDisplayLinesShouldAnimate() )
   }
 
@@ -119,7 +118,7 @@ export default class Radio extends Component {
         displayToLineRatios={ displayToLineRatios }>
         <div className="display">
           <div className="display_inner" ref={ (innerDisplay) => this.state.innerDisplay = innerDisplay }>
-            { this.state.on ? (
+            { this.props.on ? (
               <div>
                 <p className="display_line">{ songPlaying.title }</p>
                 <p className="display_line">{ songPlaying.artist } &ndash; { songPlaying.release }</p>
@@ -133,7 +132,7 @@ export default class Radio extends Component {
           </div>
         </div>
         <Buttons>
-          <FontAwesomeIcon icon="power-off" size="lg" onClick={ this.toggleOn } />
+          <FontAwesomeIcon icon="power-off" size="lg" onClick={ this.props.toggleOn } />
           <FontAwesomeIcon icon="step-forward" size="lg" onClick={ this.nextSong } />
         </Buttons>
         <div className="antenna">
@@ -148,6 +147,11 @@ export default class Radio extends Component {
       </RadioWithStyle>
     )
   }
+}
+
+Radio.propTypes = {
+  on: PropTypes.bool,
+  toggleOn: PropTypes.func
 }
 
 // ----- STYLING ----- //

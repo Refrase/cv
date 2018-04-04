@@ -19,6 +19,7 @@ export default class App extends Component {
     super(props)
 
     this.sealDestiny = this.sealDestiny.bind(this)
+    this.toggleRadioOn = this.toggleRadioOn.bind(this)
 
     this.state = {
       meta: {
@@ -54,7 +55,8 @@ export default class App extends Component {
       buttonWords: [ 'Seal', 'destiny', '<span class="icon">&#128591;</span>' ],
       discEjected: false,
       employers: [ 'Google', 'Lego', "McDonald's", 'Apple', 'Type16', '7-Eleven', 'Shell', 'Netcompany', 'The Police', 'State Ministry', 'NASA', 'Denmark', 'Earth', 'FBI' ],
-      positions: [ 'CEO', 'CTO', 'Full-Stack Developer', 'Cleaning Lady', 'Whistle Blower', 'Runner', 'Stunner', 'Water Boy', 'Pixel Pusher', 'Moon Shooter', 'Hacker', 'Agent' ]
+      positions: [ 'CEO', 'CTO', 'Full-Stack Developer', 'Cleaning Lady', 'Whistle Blower', 'Runner', 'Stunner', 'Water Boy', 'Pixel Pusher', 'Moon Shooter', 'Hacker', 'Agent' ],
+      radioOn: false
     }
 
   }
@@ -85,6 +87,10 @@ export default class App extends Component {
     })
   }
 
+  toggleRadioOn() {
+    this.setState({ radioOn: !this.state.radioOn })
+  }
+
   render() {
     return(
       <Scrollbars>
@@ -108,11 +114,13 @@ export default class App extends Component {
           <img src={ fifaDisc } alt="FIFA98 disc"/>
         </FifaDiscWrap>
         <KeyboardWrap>
-          <Keyboard onEject={ () => this.setState({ discEjected: !this.state.discEjected }) } />
+          <Keyboard
+            onEject={ () => this.setState({ discEjected: !this.state.discEjected }) }
+            onPlay={ () => this.setState({ radioOn: !this.state.radioOn }) }/>
         </KeyboardWrap>
         <RadioWrap>
           <div className="rotateWrap">
-            <Radio />
+            <Radio on={ this.state.radioOn } toggleOn={ this.toggleRadioOn } />
           </div>
         </RadioWrap>
         <PostItWrap>

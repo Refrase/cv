@@ -15,7 +15,13 @@ export default class Keyboard extends Component {
   render() {
     return(
       <KeyboardWithStyle>
-        { keys.slice(0, 13).map( ( key, index ) => {
+        { keys.slice(0, 8).map( ( key, index ) => {
+          return ( <Key key={ index } paths={ key.paths } width={ key.width } height={ key.height } /> )
+        })}
+        <div className="keyWrap" onClick={ this.props.onPlay }>
+          <Key className="play" paths={ keys[8].paths } width={ keys[8].width } height={ keys[8].height } />
+        </div>
+        { keys.slice(9, 13).map( ( key, index ) => {
           return ( <Key key={ index } paths={ key.paths } width={ key.width } height={ key.height } /> )
         })}
         <div className="keyWrap" onClick={ this.props.onEject }>
@@ -52,7 +58,10 @@ export default class Keyboard extends Component {
   }
 }
 
-Keyboard.propTypes = { onEject: PropTypes.func }
+Keyboard.propTypes = {
+  onEject: PropTypes.func,
+  onPlay: PropTypes.func
+}
 
 // ----- STYLING ----- //
 // Packages
