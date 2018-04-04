@@ -16,54 +16,62 @@ export default class Radio extends Component {
     this.nextSong = this.nextSong.bind(this)
     this.toggleOn = this.toggleOn.bind(this)
 
-    this.innerDisplay = null
-    this.innerDisplayWidth = null
-    this.updatedTime = null
-    this.songs = [
-      { title: 'Telegraph Road', artist: 'Dire Straits', release: 'Love Over Gold' },
-      { title: 'Nothing to Find', artist: 'The War on Drugs', release: 'A Deeper Understanding' },
-      { title: 'Suburbia', artist: 'Spleen United', release: 'Neanderthal' },
-      { title: 'Scenes From an Italian Restaurant', artist: 'Billy Joel', release: 'The Stranger' },
-      { title: 'When You Were Young', artist: 'The Killers', release: "Sam's Town" },
-      { title: 'Map of the Problematique', artist: 'Muse', release: 'Black Holes and Revelations' },
-      { title: 'Holy Mountains', artist: 'System of a Down', release: 'Hypnotize' },
-      { title: 'Glory', artist: 'Dizzy Mizz Lizzy', release: 'Dizzy Mizz Lizzy' },
-      { title: 'Rosanna', artist: 'Toto', release: 'Toto IV' },
-      { title: 'Sleeping My Day Away', artist: 'D-A-D', release: 'No Fuel Left for the Pilgrims' },
-      { title: "Takin' It To the Streets", artist: 'The Doobie Brothers', release: "Takin' It To the Streets" },
-      { title: 'Kalifornia', artist: 'Kashmir', release: 'No Balance Palace' },
-      { title: 'Master of Puppets', artist: 'Metallica', release: 'Master of Puppets' },
-      { title: 'New Slang', artist: 'The Shins', release: 'Oh, Inverted World' },
-      { title: 'Abrasive', artist: 'Ratatat', release: 'Magnifique' },
-      { title: 'Knights of Cydonia', artist: 'Muse', release: 'Black Holes and Revelations' },
-      { title: 'Gold Ring', artist: 'Spleen United', release: 'Godspeed Into The Mainstream' },
-      { title: 'Something Happened on the Way To Heaven', artist: 'Phil Collins', release: '...But Seriously' },
-      { title: 'Hide and Seek', artist: 'Imogen Heap', release: 'Speak For Yourself' },
-      { title: 'Beyond', artist: 'Daft Punk', release: 'Random Access Memories' },
-      { title: 'Dom sa!', artist: 'Veronica Maggio', release: 'Den Förste Är Alltid Gratis' },
-      { title: 'Shooting Up Sunshine', artist: 'Reptile Youth', release: 'Reptile Youth' },
-      { title: 'We Are Not Your Friends', artist: 'Veto', release: "There's A Beat In All Machines" },
-      { title: 'Question!', artist: 'System of a Down', release: 'Mezmerize' },
-      { title: '8(circle)', artist: 'Bon Iver', release: '22, A Million' },
-      { title: 'Mockingbird', artist: 'Eminem', release: 'Encore' }
-    ]
+    // Non-state fields
+    // While this.props is set up by React itself and this.state has a special meaning,
+    // you are free to add additional fields to the class manually if you need to store
+    // something that doesn’t participate in the data flow (like a timer ID).
+    // https://reactjs.org/docs/state-and-lifecycle.html#what-shouldnt-go-in-state
+    this.timerInterval = null
 
     this.state = {
       lineLengths: [],
-      songPlaying: this.songs[0],
       on: false,
-      currentTime: currentTime()
+      currentTime: currentTime(),
+      innerDisplay: null,
+      innerDisplayWidth: null,
+      songs: [
+        { title: 'Telegraph Road', artist: 'Dire Straits', release: 'Love Over Gold' },
+        { title: 'Nothing to Find', artist: 'The War on Drugs', release: 'A Deeper Understanding' },
+        { title: 'Suburbia', artist: 'Spleen United', release: 'Neanderthal' },
+        { title: 'Scenes From an Italian Restaurant', artist: 'Billy Joel', release: 'The Stranger' },
+        { title: 'When You Were Young', artist: 'The Killers', release: "Sam's Town" },
+        { title: 'Map of the Problematique', artist: 'Muse', release: 'Black Holes and Revelations' },
+        { title: 'Holy Mountains', artist: 'System of a Down', release: 'Hypnotize' },
+        { title: 'Glory', artist: 'Dizzy Mizz Lizzy', release: 'Dizzy Mizz Lizzy' },
+        { title: 'Rosanna', artist: 'Toto', release: 'Toto IV' },
+        { title: 'Sleeping My Day Away', artist: 'D-A-D', release: 'No Fuel Left for the Pilgrims' },
+        { title: "Takin' It To the Streets", artist: 'The Doobie Brothers', release: "Takin' It To the Streets" },
+        { title: 'Kalifornia', artist: 'Kashmir', release: 'No Balance Palace' },
+        { title: 'Master of Puppets', artist: 'Metallica', release: 'Master of Puppets' },
+        { title: 'New Slang', artist: 'The Shins', release: 'Oh, Inverted World' },
+        { title: 'Abrasive', artist: 'Ratatat', release: 'Magnifique' },
+        { title: 'Knights of Cydonia', artist: 'Muse', release: 'Black Holes and Revelations' },
+        { title: 'Gold Ring', artist: 'Spleen United', release: 'Godspeed Into The Mainstream' },
+        { title: 'Something Happened on the Way To Heaven', artist: 'Phil Collins', release: '...But Seriously' },
+        { title: 'Hide and Seek', artist: 'Imogen Heap', release: 'Speak For Yourself' },
+        { title: 'Beyond', artist: 'Daft Punk', release: 'Random Access Memories' },
+        { title: 'Dom sa!', artist: 'Veronica Maggio', release: 'Den Förste Är Alltid Gratis' },
+        { title: 'Shooting Up Sunshine', artist: 'Reptile Youth', release: 'Reptile Youth' },
+        { title: 'We Are Not Your Friends', artist: 'Veto', release: "There's A Beat In All Machines" },
+        { title: 'Question!', artist: 'System of a Down', release: 'Mezmerize' },
+        { title: '8(circle)', artist: 'Bon Iver', release: '22, A Million' },
+        { title: 'Mockingbird', artist: 'Eminem', release: 'Encore' }
+      ],
+      songPlaying: null
     }
   }
 
   componentDidMount() {
-    this.innerDisplayWidth = this.innerDisplay.clientWidth
+    this.setState({
+      songPlaying: this.state.songs[0],
+      innerDisplayWidth: this.state.innerDisplay.clientWidth
+    })
     this.decideIfDisplayLinesShouldAnimate()
-    this.updatedTime = setInterval( () => { this.setState({ currentTime: currentTime() }) }, 1000 )
+    this.timerInterval = setInterval( () => { this.setState({ currentTime: currentTime() }) }, 1000 )
   }
 
   componentWillUnmount() {
-    clearInterval( this.updatedTime )
+    clearInterval( this.timerInterval )
   }
 
   // Determines if each display line is longer than the inner display - and turns on animation for that line if it is
@@ -76,17 +84,17 @@ export default class Radio extends Component {
     if ( displayLines.length ) {
       for ( let displayLine of displayLines ) {
         lineLengths.push(displayLine.clientWidth)
-        if ( displayLine.clientWidth > this.innerDisplay.clientWidth - 16 ) displayLine.classList.add( 'display_line-animate' )
+        if ( displayLine.clientWidth > this.state.innerDisplay.clientWidth - 16 ) displayLine.classList.add( 'display_line-animate' )
         else displayLine.classList.remove( 'display_line-animate' ) }}
     this.setState({ lineLengths })
   }
 
   nextSong() {
     if ( !this.state.on ) return
-    const indexOfCurrentSong = this.songs.map( (song, index) => { if ( song.title === this.state.songPlaying.title ) return index }).filter(isFinite)[0]
-    const indexOfNextSong = indexOfCurrentSong + 1 === this.songs.length ? 0 : indexOfCurrentSong + 1
+    const indexOfCurrentSong = this.state.songs.map( (song, index) => { if ( song.title === this.state.songPlaying.title ) return index }).filter(isFinite)[0]
+    const indexOfNextSong = indexOfCurrentSong + 1 === this.state.songs.length ? 0 : indexOfCurrentSong + 1
     this.setState(
-      { songPlaying: this.songs[indexOfNextSong] },
+      { songPlaying: this.state.songs[indexOfNextSong] },
       () => this.decideIfDisplayLinesShouldAnimate() )
   }
 
@@ -100,17 +108,17 @@ export default class Radio extends Component {
     // Calculate the length of each line relative to inner display width, so that animation can be adjusted with durations (%) that make each line flow smoothly
     // 60 as the animation 'pauses' at 60% (see keyframes below)
     const displayToLineRatios = []
-    for ( let i = 0; i < this.state.lineLengths.length; i++ ) displayToLineRatios.push(60 - (60 / (1 + this.state.lineLengths[i] / this.innerDisplayWidth)))
+    for ( let i = 0; i < this.state.lineLengths.length; i++ ) displayToLineRatios.push(60 - (60 / (1 + this.state.lineLengths[i] / this.state.innerDisplayWidth)))
 
     const { ...songPlaying } = this.state.songPlaying
 
     return(
       <RadioWithStyle
         lineLengths={ this.state.lineLengths }
-        innerDisplayWidth={ this.innerDisplayWidth }
+        innerDisplayWidth={ this.state.innerDisplayWidth }
         displayToLineRatios={ displayToLineRatios }>
         <div className="display">
-          <div className="display_inner" ref={ (innerDisplay) => this.innerDisplay = innerDisplay }>
+          <div className="display_inner" ref={ (innerDisplay) => this.state.innerDisplay = innerDisplay }>
             { this.state.on ? (
               <div>
                 <p className="display_line">{ songPlaying.title }</p>

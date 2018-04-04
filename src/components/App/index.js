@@ -52,17 +52,16 @@ export default class App extends Component {
         { label: 'LinkedIn', url: 'https://www.linkedin.com/in/andreas-reffstrup-rasmussen-689b1060/' }
       ],
       buttonWords: [ 'Seal', 'destiny', '<span class="icon">&#128591;</span>' ],
-      discEjected: false
+      discEjected: false,
+      employers: [ 'Google', 'Lego', "McDonald's", 'Apple', 'Type16', '7-Eleven', 'Shell', 'Netcompany', 'The Police', 'State Ministry', 'NASA', 'Denmark', 'Earth', 'FBI' ],
+      positions: [ 'CEO', 'CTO', 'Full-Stack Developer', 'Cleaning Lady', 'Whistle Blower', 'Runner', 'Stunner', 'Water Boy', 'Pixel Pusher', 'Moon Shooter', 'Hacker', 'Agent' ]
     }
-
-    this.employers = [ 'Google', 'Lego', "McDonald's", 'Apple', 'Type16', '7-Eleven', 'Shell', 'Netcompany', 'The Police', 'State Ministry', 'NASA', 'Denmark', 'Earth', 'FBI' ]
-    this.positions = [ 'CEO', 'CTO', 'Full-Stack Developer', 'Cleaning Lady', 'Whistle Blower', 'Runner', 'Stunner', 'Water Boy', 'Pixel Pusher', 'Moon Shooter', 'Hacker', 'Agent' ]
 
   }
 
   sealDestiny() {
-    const employerRandom = this.employers[Math.floor(Math.random()*this.employers.length)]
-    const positionRandom = this.positions[Math.floor(Math.random()*this.positions.length)]
+    const employerRandom = this.state.employers[Math.floor(Math.random()*this.state.employers.length)]
+    const positionRandom = this.state.positions[Math.floor(Math.random()*this.state.positions.length)]
 
     const params = getURLParams()
     const employer =
