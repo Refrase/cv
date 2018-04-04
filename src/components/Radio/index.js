@@ -21,17 +21,17 @@ export default class Radio extends Component {
     // something that doesn’t participate in the data flow (like a timer ID).
     // https://reactjs.org/docs/state-and-lifecycle.html#what-shouldnt-go-in-state
     this.timerInterval = null
+    this.innerDisplay = null
 
     this.state = {
       lineLengths: [],
       currentTime: currentTime(),
-      innerDisplay: null,
       innerDisplayWidth: null
     }
   }
 
   componentDidMount() {
-    this.setState({ innerDisplayWidth: this.state.innerDisplay.clientWidth })
+    this.setState({ innerDisplayWidth: this.innerDisplay.clientWidth })
     this.decideIfDisplayLinesShouldAnimate()
     this.timerInterval = setInterval( () => { this.setState({ currentTime: currentTime() }) }, 1000 )
   }
@@ -56,7 +56,7 @@ export default class Radio extends Component {
     if ( displayLines.length ) {
       for ( let displayLine of displayLines ) {
         lineLengths.push(displayLine.clientWidth)
-        if ( displayLine.clientWidth > this.state.innerDisplay.clientWidth - 16 ) displayLine.classList.add( 'display_line-animate' )
+        if ( displayLine.clientWidth > this.innerDisplay.clientWidth - 16 ) displayLine.classList.add( 'display_line-animate' )
         else displayLine.classList.remove( 'display_line-animate' ) }}
     this.setState({ lineLengths })
   }
@@ -65,17 +65,17 @@ export default class Radio extends Component {
     // Calculate the length of each line relative to inner display width, so that animation can be adjusted with durations (%) that make each line flow smoothly
     // 60 as the animation 'pauses' at 60% (see keyframes below)
     const displayToLineRatios = []
-    for ( let i = 0; i < this.state.lineLengths.length; i++ ) displayToLineRatios.push(60 - (60 / (1 + this.state.lineLengths[i] / this.state.innerDisplayWidth)))
+    for ( let i = 0; i < this.state.lineLengths.length; i++ ) displayToLineRatios.push(60 - (60 / (1 + this.state.lineLengths[i] / this.innerDisplayWidth)))
 
     const { songPlaying } = this.props
 
     return(
       <RadioWithStyle
         lineLengths={ this.state.lineLengths }
-        innerDisplayWidth={ this.state.innerDisplayWidth }
+        innerDisplayWidth={ this.innerDisplayWidth }
         displayToLineRatios={ displayToLineRatios }>
         <div className="display">
-          <div className="display_inner" ref={ (innerDisplay) => this.state.innerDisplay = innerDisplay }>
+          <div className="display_inner" ref={ (innerDisplay) => this.innerDisplay = innerDisplay }>
             { this.props.on ? (
               <div>
                 <p className="display_line">{ songPlaying.title }</p>

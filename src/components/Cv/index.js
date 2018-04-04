@@ -17,7 +17,7 @@ export default class Cv extends Component {
     return (
       <Wrap>
         <div className="header">
-          <img src={ meta.image } alt={ `Image of ${ meta.firstName }` } />
+          <img draggable="false" src={ meta.image } alt={ `Image of ${ meta.firstName }` } />
           <div className="name"><span>CV</span> { meta.firstName } { meta.lastName }</div>
         </div>
         <div className="content">

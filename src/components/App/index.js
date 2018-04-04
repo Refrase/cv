@@ -5,6 +5,8 @@ import { Scrollbars } from 'react-custom-scrollbars'
 import { getURLParams } from 'utils/scripts/params'
 import { titleCase } from 'utils/scripts/string'
 // Components
+import RotateWrap from 'components/RotateWrap'
+import DragWrap from 'components/DragWrap'
 import Radio from 'components/Radio'
 import ButtonRound from 'components/ButtonRound'
 import Cv from 'components/Cv'
@@ -152,49 +154,62 @@ export default class App extends Component {
       <Scrollbars>
         <Background />
         <CvWrap>
-          <div className="rotateWrap">
-            <Cv
-              meta={ this.state.meta }
-              jobs={ this.state.jobs }
-              links={ this.state.links }
-              educations={ this.state.educations }
-              jobChanged={ this.state.jobChanged } />
-          </div>
+          <RotateWrap degrees={ 2 }>
+            <DragWrap>
+              <Cv
+                meta={ this.state.meta }
+                jobs={ this.state.jobs }
+                links={ this.state.links }
+                educations={ this.state.educations }
+                jobChanged={ this.state.jobChanged } />
+            </DragWrap>
+          </RotateWrap>
         </CvWrap>
         <ButtonRoundWrap>
-          <div className="rotateWrap">
-            <ButtonRound words={ this.state.buttonWords } onClick={ () => this.sealDestiny() } />
-          </div>
+          <RotateWrap degrees={ -16 }>
+            <DragWrap>
+              <ButtonRound words={ this.state.buttonWords } onClick={ () => this.sealDestiny() } />
+            </DragWrap>
+          </RotateWrap>
         </ButtonRoundWrap>
         <FifaDiscWrap className={ this.state.discEjected ? 'ejected' : '' }>
-          <img src={ fifaDisc } alt="FIFA98 disc"/>
+          <img draggable="false" src={ fifaDisc } alt="FIFA98 disc"/>
         </FifaDiscWrap>
         <KeyboardWrap>
-          <Keyboard
-            onFastBackwards={ this.previousSong }
-            onPlay={ () => this.setState({ radioOn: !this.state.radioOn }) }
-            onFastForward={ this.nextSong }
-            onEject={ () => this.setState({ discEjected: !this.state.discEjected }) }
-            />
+          <RotateWrap degrees={ -4 }>
+            <DragWrap>
+              <Keyboard
+              onFastBackwards={ this.previousSong }
+              onPlay={ () => this.setState({ radioOn: !this.state.radioOn }) }
+              onFastForward={ this.nextSong }
+              onEject={ () => this.setState({ discEjected: !this.state.discEjected }) } />
+            </DragWrap>
+          </RotateWrap>
         </KeyboardWrap>
         <RadioWrap>
-          <div className="rotateWrap">
-            <Radio
-              on={ this.state.radioOn }
-              toggleOn={ this.toggleRadioOn }
-              nextSong={ this.nextSong }
-              songPlaying={ this.state.songPlaying } />
-          </div>
+          <RotateWrap degrees={ -12 }>
+            <DragWrap>
+              <Radio
+                on={ this.state.radioOn }
+                toggleOn={ this.toggleRadioOn }
+                nextSong={ this.nextSong }
+                songPlaying={ this.state.songPlaying } />
+            </DragWrap>
+          </RotateWrap>
         </RadioWrap>
         <PostItWrap>
-          <div className="rotateWrap">
-            <PostIt text="Create non-boring CV for job applications" />
-          </div>
+          <RotateWrap degrees={ 11 }>
+            <DragWrap>
+              <PostIt text="Create non-boring CV for job applications" />
+            </DragWrap>
+          </RotateWrap>
         </PostItWrap>
         <PostIt2Wrap>
-          <div className="rotateWrap">
-            <PostIt text="Start using Wunderlist instead of all these f*cking post-its" />
-          </div>
+          <RotateWrap degrees={ -6 }>
+            <DragWrap>
+              <PostIt text="Start using Wunderlist instead of all these f*cking post-its" />
+            </DragWrap>
+          </RotateWrap>
         </PostIt2Wrap>
       </Scrollbars>
     )
@@ -281,7 +296,6 @@ const Background = styled.div`
     backface-visibility: hidden; { /* Smoothing edges on transform-rotated elements in WebKit */ }
   }
 `
-
 const FifaDiscWrap = styled.div`
   position: fixed;
   width: 320px;
@@ -290,16 +304,14 @@ const FifaDiscWrap = styled.div`
   z-index: 10;
   border-radius: 50%;
   box-shadow: 0px 0px 100px 10px rgba(0,0,0,0.75);
-  transform: translateY(-100%) rotate(0deg);
+  transform: translateY(-200%) rotate(0deg);
   transition: transform 600ms cubic-bezier(0.4,0.75,0.6,1);
 
   &.ejected { transform: translateY(-50%) rotate(3450deg); }
 
   img { width: 100%; }
 `
-
 const CvWrap = styled.div`
-  .rotateWrap { transform: rotateZ(2deg); }
   position: absolute;
   display: block;
   right: 140px;
@@ -308,41 +320,31 @@ const CvWrap = styled.div`
   ${'' /* transform: translateY( -100vh );
   animation: ${slideDownIntoView`[24, 2]`} 400ms cubic-bezier(0.4,0.75,0.6,1) forwards; */}
 `
-
 const ButtonRoundWrap = styled.div`
-  .rotateWrap { transform: rotateZ(-16deg); }
   position: absolute;
   top: ${scaler(4)};
   right: 360px;
   ${'' /* transform: translateY( -100vh );
   animation: ${slideDownIntoView`[100, -16]`} 400ms 200ms cubic-bezier(0.4,0.75,0.6,1) forwards; */}
 `
-
 const KeyboardWrap = styled.div`
   position: absolute;
   top: ${scaler(38)};
   left: ${scaler(16)};
-  transform: rotateZ(-4deg);
 `
-
 const RadioWrap = styled.div`
-  .rotateWrap { transform: rotateZ(-12deg); }
   position: absolute;
   top: ${scaler(16)};
   left: ${scaler(12)};
   ${'' /* opacity: 0;
   animation: ${fallDown} 100ms 1000ms ease-in forwards; */}
 `
-
 const PostItWrap = styled.div`
-  .rotateWrap { transform: rotateZ(11deg); }
   position: absolute;
   top: ${scaler(12)};
   left: ${scaler(66)};
 `
-
 const PostIt2Wrap = styled.div`
-  .rotateWrap { transform: rotateZ(-6deg); }
   position: absolute;
   top: ${scaler(6)};
   left: ${scaler(88)};
