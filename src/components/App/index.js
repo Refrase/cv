@@ -117,9 +117,14 @@ export default class App extends Component {
         </RadioWrap>
         <PostItWrap>
           <div className="rotateWrap">
-            <PostIt text="Remember to create CV for job applications"/>
+            <PostIt text="Create non-boring CV for job applications" />
           </div>
         </PostItWrap>
+        <PostIt2Wrap>
+          <div className="rotateWrap">
+            <PostIt text="Start using Wunderlist instead of all these f*cking post-its" />
+          </div>
+        </PostIt2Wrap>
       </Scrollbars>
     )
   }
@@ -263,4 +268,11 @@ const PostItWrap = styled.div`
   position: absolute;
   top: ${scaler(12)};
   left: ${scaler(66)};
+`
+
+const PostIt2Wrap = styled.div`
+  .rotateWrap { transform: rotateZ(-6deg); }
+  position: absolute;
+  top: ${scaler(6)};
+  left: ${scaler(88)};
 `

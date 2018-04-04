@@ -33,6 +33,7 @@ const PostItWithStyle = styled.div`
   box-shadow: ${shadows.paper};
   font-family: ${fonts.families.hand};
   font-size: ${fonts.sizes.xxLarge};
+  line-height: 1.2;
 
   &:before, &:after {
     content: '';
