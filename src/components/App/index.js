@@ -20,6 +20,9 @@ export default class App extends Component {
 
     this.sealDestiny = this.sealDestiny.bind(this)
     this.toggleRadioOn = this.toggleRadioOn.bind(this)
+    this.previousSong = this.previousSong.bind(this)
+    this.nextSong = this.nextSong.bind(this)
+    this.getIndexOfSongPlaying = this.getIndexOfSongPlaying.bind(this)
 
     this.state = {
       meta: {
@@ -56,9 +59,43 @@ export default class App extends Component {
       discEjected: false,
       employers: [ 'Google', 'Lego', "McDonald's", 'Apple', 'Type16', '7-Eleven', 'Shell', 'Netcompany', 'The Police', 'State Ministry', 'NASA', 'Denmark', 'Earth', 'FBI' ],
       positions: [ 'CEO', 'CTO', 'Full-Stack Developer', 'Cleaning Lady', 'Whistle Blower', 'Runner', 'Stunner', 'Water Boy', 'Pixel Pusher', 'Moon Shooter', 'Hacker', 'Agent' ],
-      radioOn: false
+      radioOn: false,
+      songPlaying: null,
+      indexOfSongPlaying: null,
+      songs: [
+        { title: 'Telegraph Road', artist: 'Dire Straits', release: 'Love Over Gold' },
+        { title: 'Nothing to Find', artist: 'The War on Drugs', release: 'A Deeper Understanding' },
+        { title: 'Suburbia', artist: 'Spleen United', release: 'Neanderthal' },
+        { title: 'Scenes From an Italian Restaurant', artist: 'Billy Joel', release: 'The Stranger' },
+        { title: 'When You Were Young', artist: 'The Killers', release: "Sam's Town" },
+        { title: 'Map of the Problematique', artist: 'Muse', release: 'Black Holes and Revelations' },
+        { title: 'Holy Mountains', artist: 'System of a Down', release: 'Hypnotize' },
+        { title: 'Glory', artist: 'Dizzy Mizz Lizzy', release: 'Dizzy Mizz Lizzy' },
+        { title: 'Rosanna', artist: 'Toto', release: 'Toto IV' },
+        { title: 'Sleeping My Day Away', artist: 'D-A-D', release: 'No Fuel Left for the Pilgrims' },
+        { title: "Takin' It To the Streets", artist: 'The Doobie Brothers', release: "Takin' It To the Streets" },
+        { title: 'Kalifornia', artist: 'Kashmir', release: 'No Balance Palace' },
+        { title: 'Master of Puppets', artist: 'Metallica', release: 'Master of Puppets' },
+        { title: 'New Slang', artist: 'The Shins', release: 'Oh, Inverted World' },
+        { title: 'Abrasive', artist: 'Ratatat', release: 'Magnifique' },
+        { title: 'Knights of Cydonia', artist: 'Muse', release: 'Black Holes and Revelations' },
+        { title: 'Gold Ring', artist: 'Spleen United', release: 'Godspeed Into The Mainstream' },
+        { title: 'Something Happened on the Way To Heaven', artist: 'Phil Collins', release: '...But Seriously' },
+        { title: 'Hide and Seek', artist: 'Imogen Heap', release: 'Speak For Yourself' },
+        { title: 'Beyond', artist: 'Daft Punk', release: 'Random Access Memories' },
+        { title: 'Dom sa!', artist: 'Veronica Maggio', release: 'Den Förste Är Alltid Gratis' },
+        { title: 'Shooting Up Sunshine', artist: 'Reptile Youth', release: 'Reptile Youth' },
+        { title: 'We Are Not Your Friends', artist: 'Veto', release: "There's A Beat In All Machines" },
+        { title: 'Question!', artist: 'System of a Down', release: 'Mezmerize' },
+        { title: '8(circle)', artist: 'Bon Iver', release: '22, A Million' },
+        { title: 'Mockingbird', artist: 'Eminem', release: 'Encore' }
+      ]
     }
 
+  }
+
+  componentDidMount() {
+    this.setState({ songPlaying: this.state.songs[0] })
   }
 
   sealDestiny() {
@@ -91,6 +128,25 @@ export default class App extends Component {
     this.setState({ radioOn: !this.state.radioOn })
   }
 
+  getIndexOfSongPlaying() {
+    const indexOfSongPlaying = this.state.songs.map( (song, index) => { if ( song.title === this.state.songPlaying.title ) return index }).filter(isFinite)[0]
+    this.setState({ indexOfSongPlaying })
+  }
+
+  async nextSong() {
+    if ( !this.state.radioOn ) return
+    await this.getIndexOfSongPlaying()
+    const indexOfNextSong = this.state.indexOfSongPlaying + 1 === this.state.songs.length ? 0 : this.state.indexOfSongPlaying + 1
+    this.setState({ songPlaying: this.state.songs[indexOfNextSong] })
+  }
+
+  async previousSong() {
+    if ( !this.state.radioOn ) return
+    await this.getIndexOfSongPlaying()
+    const indexOfPreviousSong = this.state.indexOfSongPlaying - 1 === -1 ? this.state.songs.length - 1 : this.state.indexOfSongPlaying - 1
+    this.setState({ songPlaying: this.state.songs[indexOfPreviousSong] })
+  }
+
   render() {
     return(
       <Scrollbars>
@@ -102,7 +158,7 @@ export default class App extends Component {
               jobs={ this.state.jobs }
               links={ this.state.links }
               educations={ this.state.educations }
-              jobChanged={ this.state.jobChanged }  />
+              jobChanged={ this.state.jobChanged } />
           </div>
         </CvWrap>
         <ButtonRoundWrap>
@@ -115,12 +171,19 @@ export default class App extends Component {
         </FifaDiscWrap>
         <KeyboardWrap>
           <Keyboard
+            onFastBackwards={ this.previousSong }
+            onPlay={ () => this.setState({ radioOn: !this.state.radioOn }) }
+            onFastForward={ this.nextSong }
             onEject={ () => this.setState({ discEjected: !this.state.discEjected }) }
-            onPlay={ () => this.setState({ radioOn: !this.state.radioOn }) }/>
+            />
         </KeyboardWrap>
         <RadioWrap>
           <div className="rotateWrap">
-            <Radio on={ this.state.radioOn } toggleOn={ this.toggleRadioOn } />
+            <Radio
+              on={ this.state.radioOn }
+              toggleOn={ this.toggleRadioOn }
+              nextSong={ this.nextSong }
+              songPlaying={ this.state.songPlaying } />
           </div>
         </RadioWrap>
         <PostItWrap>

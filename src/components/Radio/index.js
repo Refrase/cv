@@ -14,7 +14,6 @@ export default class Radio extends Component {
     super(props)
 
     this.decideIfDisplayLinesShouldAnimate = this.decideIfDisplayLinesShouldAnimate.bind(this)
-    this.nextSong = this.nextSong.bind(this)
 
     // Non-state fields
     // While this.props is set up by React itself and this.state has a special meaning,
@@ -27,44 +26,12 @@ export default class Radio extends Component {
       lineLengths: [],
       currentTime: currentTime(),
       innerDisplay: null,
-      innerDisplayWidth: null,
-      songs: [
-        { title: 'Telegraph Road', artist: 'Dire Straits', release: 'Love Over Gold' },
-        { title: 'Nothing to Find', artist: 'The War on Drugs', release: 'A Deeper Understanding' },
-        { title: 'Suburbia', artist: 'Spleen United', release: 'Neanderthal' },
-        { title: 'Scenes From an Italian Restaurant', artist: 'Billy Joel', release: 'The Stranger' },
-        { title: 'When You Were Young', artist: 'The Killers', release: "Sam's Town" },
-        { title: 'Map of the Problematique', artist: 'Muse', release: 'Black Holes and Revelations' },
-        { title: 'Holy Mountains', artist: 'System of a Down', release: 'Hypnotize' },
-        { title: 'Glory', artist: 'Dizzy Mizz Lizzy', release: 'Dizzy Mizz Lizzy' },
-        { title: 'Rosanna', artist: 'Toto', release: 'Toto IV' },
-        { title: 'Sleeping My Day Away', artist: 'D-A-D', release: 'No Fuel Left for the Pilgrims' },
-        { title: "Takin' It To the Streets", artist: 'The Doobie Brothers', release: "Takin' It To the Streets" },
-        { title: 'Kalifornia', artist: 'Kashmir', release: 'No Balance Palace' },
-        { title: 'Master of Puppets', artist: 'Metallica', release: 'Master of Puppets' },
-        { title: 'New Slang', artist: 'The Shins', release: 'Oh, Inverted World' },
-        { title: 'Abrasive', artist: 'Ratatat', release: 'Magnifique' },
-        { title: 'Knights of Cydonia', artist: 'Muse', release: 'Black Holes and Revelations' },
-        { title: 'Gold Ring', artist: 'Spleen United', release: 'Godspeed Into The Mainstream' },
-        { title: 'Something Happened on the Way To Heaven', artist: 'Phil Collins', release: '...But Seriously' },
-        { title: 'Hide and Seek', artist: 'Imogen Heap', release: 'Speak For Yourself' },
-        { title: 'Beyond', artist: 'Daft Punk', release: 'Random Access Memories' },
-        { title: 'Dom sa!', artist: 'Veronica Maggio', release: 'Den Förste Är Alltid Gratis' },
-        { title: 'Shooting Up Sunshine', artist: 'Reptile Youth', release: 'Reptile Youth' },
-        { title: 'We Are Not Your Friends', artist: 'Veto', release: "There's A Beat In All Machines" },
-        { title: 'Question!', artist: 'System of a Down', release: 'Mezmerize' },
-        { title: '8(circle)', artist: 'Bon Iver', release: '22, A Million' },
-        { title: 'Mockingbird', artist: 'Eminem', release: 'Encore' }
-      ],
-      songPlaying: null
+      innerDisplayWidth: null
     }
   }
 
   componentDidMount() {
-    this.setState({
-      songPlaying: this.state.songs[0],
-      innerDisplayWidth: this.state.innerDisplay.clientWidth
-    })
+    this.setState({ innerDisplayWidth: this.state.innerDisplay.clientWidth })
     this.decideIfDisplayLinesShouldAnimate()
     this.timerInterval = setInterval( () => { this.setState({ currentTime: currentTime() }) }, 1000 )
   }
@@ -74,7 +41,7 @@ export default class Radio extends Component {
   }
 
   componentWillReceiveProps( nextProps ) {
-    if ( nextProps.on != this.props.on ) {
+    if ( nextProps.on != this.props.on || nextProps.songPlaying != this.props.songPlaying ) {
       setTimeout( () => { this.decideIfDisplayLinesShouldAnimate() }, 0 ) // Timeout to put on the back of callstack making sure the linelengths state is updated before
     }
   }
@@ -94,22 +61,13 @@ export default class Radio extends Component {
     this.setState({ lineLengths })
   }
 
-  nextSong() {
-    if ( !this.props.on ) return
-    const indexOfCurrentSong = this.state.songs.map( (song, index) => { if ( song.title === this.state.songPlaying.title ) return index }).filter(isFinite)[0]
-    const indexOfNextSong = indexOfCurrentSong + 1 === this.state.songs.length ? 0 : indexOfCurrentSong + 1
-    this.setState(
-      { songPlaying: this.state.songs[indexOfNextSong] },
-      () => this.decideIfDisplayLinesShouldAnimate() )
-  }
-
   render() {
     // Calculate the length of each line relative to inner display width, so that animation can be adjusted with durations (%) that make each line flow smoothly
     // 60 as the animation 'pauses' at 60% (see keyframes below)
     const displayToLineRatios = []
     for ( let i = 0; i < this.state.lineLengths.length; i++ ) displayToLineRatios.push(60 - (60 / (1 + this.state.lineLengths[i] / this.state.innerDisplayWidth)))
 
-    const { ...songPlaying } = this.state.songPlaying
+    const { songPlaying } = this.props
 
     return(
       <RadioWithStyle
@@ -133,7 +91,7 @@ export default class Radio extends Component {
         </div>
         <Buttons>
           <FontAwesomeIcon icon="power-off" size="lg" onClick={ this.props.toggleOn } />
-          <FontAwesomeIcon icon="step-forward" size="lg" onClick={ this.nextSong } />
+          <FontAwesomeIcon icon="step-forward" size="lg" onClick={ this.props.nextSong } />
         </Buttons>
         <div className="antenna">
           <div className="antenna_bottom">
@@ -151,7 +109,9 @@ export default class Radio extends Component {
 
 Radio.propTypes = {
   on: PropTypes.bool,
-  toggleOn: PropTypes.func
+  toggleOn: PropTypes.func,
+  nextSong: PropTypes.func,
+  songPlaying: PropTypes.object
 }
 
 // ----- STYLING ----- //

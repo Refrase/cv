@@ -15,13 +15,19 @@ export default class Keyboard extends Component {
   render() {
     return(
       <KeyboardWithStyle>
-        { keys.slice(0, 8).map( ( key, index ) => {
+        { keys.slice(0, 7).map( ( key, index ) => {
           return ( <Key key={ index } paths={ key.paths } width={ key.width } height={ key.height } /> )
         })}
+        <div className="keyWrap" onClick={ this.props.onFastBackwards }>
+          <Key className="fastBackwards" paths={ keys[7].paths } width={ keys[7].width } height={ keys[7].height } />
+        </div>
         <div className="keyWrap" onClick={ this.props.onPlay }>
           <Key className="play" paths={ keys[8].paths } width={ keys[8].width } height={ keys[8].height } />
         </div>
-        { keys.slice(9, 13).map( ( key, index ) => {
+        <div className="keyWrap" onClick={ this.props.onFastForward }>
+          <Key className="fastForward" paths={ keys[9].paths } width={ keys[9].width } height={ keys[9].height } />
+        </div>
+        { keys.slice(10, 13).map( ( key, index ) => {
           return ( <Key key={ index } paths={ key.paths } width={ key.width } height={ key.height } /> )
         })}
         <div className="keyWrap" onClick={ this.props.onEject }>
@@ -59,8 +65,10 @@ export default class Keyboard extends Component {
 }
 
 Keyboard.propTypes = {
-  onEject: PropTypes.func,
-  onPlay: PropTypes.func
+  onBackwards: PropTypes.func,
+  onPlay: PropTypes.func,
+  onFastForward: PropTypes.func,
+  onEject: PropTypes.func
 }
 
 // ----- STYLING ----- //
