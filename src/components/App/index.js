@@ -163,7 +163,7 @@ export default class App extends Component {
             jobChanged={ this.state.jobChanged } />
         </LayoutWrap>
 
-        <LayoutWrap degrees={ -16 } top={ 32 } right={ 360 } draggable>
+        <LayoutWrap degrees={ -16 } top={ 32 } right={ 360 } zIndex={ 90 } draggable>
           <ButtonRound words={ this.state.buttonWords } onClick={ () => this.sealDestiny() } />
         </LayoutWrap>
 
@@ -179,7 +179,7 @@ export default class App extends Component {
             onEject={ () => this.setState({ discEjected: !this.state.discEjected }) } />
         </LayoutWrap>
 
-        <LayoutWrap degrees={ -12 } top={ 128 } left={ 96 } draggable>
+        <LayoutWrap degrees={ -12 } top={ 128 } left={ 96 } zIndex={ 100 } draggable>
           <Radio
             on={ this.state.radioOn }
             toggleOn={ this.toggleRadioOn }
@@ -194,7 +194,7 @@ export default class App extends Component {
         <LayoutWrap degrees={ -6 } top={ 48 } left={ 704 } draggable>
           <PostIt text="Start using Wunderlist instead of all these f*cking post-its" />
         </LayoutWrap>
-        
+
       </Scrollbars>
     )
   }

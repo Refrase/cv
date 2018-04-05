@@ -15,7 +15,7 @@ export default class LayoutWrap extends Component {
   }
 
   render() {
-    const { children, className, degrees, left, right, top, draggable } = this.props
+    const { children, className, degrees, left, right, top, zIndex, draggable } = this.props
     return (
       <div
         className={ className }
@@ -24,6 +24,7 @@ export default class LayoutWrap extends Component {
           top: `${ top ? top : 'auto' }px`,
           left: `${ left ? left : 'auto' }px`,
           right: `${ right ? right : 'auto' }px`,
+          zIndex: `${ zIndex ? zIndex : 0 }`,
           transform: `rotateZ( ${ degrees ? degrees : 0 }deg )`,
           cursor: `${ draggable ? 'move' : 'default' }`,
           backfaceVisibility: 'hidden' /* Smoothing edges on transform-rotated elements in WebKit */
@@ -42,5 +43,6 @@ LayoutWrap.propTypes = {
   left: PropTypes.number,
   right: PropTypes.number,
   top: PropTypes.number,
+  zIndex: PropTypes.number,
   draggable: PropTypes.bool
 }
