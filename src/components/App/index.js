@@ -5,8 +5,7 @@ import { Scrollbars } from 'react-custom-scrollbars'
 import { getURLParams } from 'utils/scripts/params'
 import { titleCase } from 'utils/scripts/string'
 // Components
-import RotateWrap from 'components/RotateWrap'
-import DragWrap from 'components/DragWrap'
+import LayoutWrap from 'components/LayoutWrap'
 import Radio from 'components/Radio'
 import ButtonRound from 'components/ButtonRound'
 import Cv from 'components/Cv'
@@ -152,65 +151,50 @@ export default class App extends Component {
   render() {
     return(
       <Scrollbars>
+
         <Background />
-        <CvWrap>
-          <RotateWrap degrees={ 2 }>
-            <DragWrap>
-              <Cv
-                meta={ this.state.meta }
-                jobs={ this.state.jobs }
-                links={ this.state.links }
-                educations={ this.state.educations }
-                jobChanged={ this.state.jobChanged } />
-            </DragWrap>
-          </RotateWrap>
-        </CvWrap>
-        <ButtonRoundWrap>
-          <RotateWrap degrees={ -16 }>
-            <DragWrap>
-              <ButtonRound words={ this.state.buttonWords } onClick={ () => this.sealDestiny() } />
-            </DragWrap>
-          </RotateWrap>
-        </ButtonRoundWrap>
+
+        <LayoutWrap degrees={ 2 } top={ 80 } right={ 140 } draggable>
+          <Cv
+            meta={ this.state.meta }
+            jobs={ this.state.jobs }
+            links={ this.state.links }
+            educations={ this.state.educations }
+            jobChanged={ this.state.jobChanged } />
+        </LayoutWrap>
+
+        <LayoutWrap degrees={ -16 } top={ 32 } right={ 360 } draggable>
+          <ButtonRound words={ this.state.buttonWords } onClick={ () => this.sealDestiny() } />
+        </LayoutWrap>
+
         <FifaDiscWrap className={ this.state.discEjected ? 'ejected' : '' }>
           <img draggable="false" src={ fifaDisc } alt="FIFA98 disc"/>
         </FifaDiscWrap>
-        <KeyboardWrap>
-          <RotateWrap degrees={ -4 }>
-            <DragWrap>
-              <Keyboard
-              onFastBackwards={ this.previousSong }
-              onPlay={ () => this.setState({ radioOn: !this.state.radioOn }) }
-              onFastForward={ this.nextSong }
-              onEject={ () => this.setState({ discEjected: !this.state.discEjected }) } />
-            </DragWrap>
-          </RotateWrap>
-        </KeyboardWrap>
-        <RadioWrap>
-          <RotateWrap degrees={ -12 }>
-            <DragWrap>
-              <Radio
-                on={ this.state.radioOn }
-                toggleOn={ this.toggleRadioOn }
-                nextSong={ this.nextSong }
-                songPlaying={ this.state.songPlaying } />
-            </DragWrap>
-          </RotateWrap>
-        </RadioWrap>
-        <PostItWrap>
-          <RotateWrap degrees={ 11 }>
-            <DragWrap>
-              <PostIt text="Create non-boring CV for job applications" />
-            </DragWrap>
-          </RotateWrap>
-        </PostItWrap>
-        <PostIt2Wrap>
-          <RotateWrap degrees={ -6 }>
-            <DragWrap>
-              <PostIt text="Start using Wunderlist instead of all these f*cking post-its" />
-            </DragWrap>
-          </RotateWrap>
-        </PostIt2Wrap>
+
+        <LayoutWrap degrees={ -2 } top={ 304 } left={ 128 } draggable>
+          <Keyboard
+            onFastBackwards={ this.previousSong }
+            onPlay={ () => this.setState({ radioOn: !this.state.radioOn }) }
+            onFastForward={ this.nextSong }
+            onEject={ () => this.setState({ discEjected: !this.state.discEjected }) } />
+        </LayoutWrap>
+
+        <LayoutWrap degrees={ -12 } top={ 128 } left={ 96 } draggable>
+          <Radio
+            on={ this.state.radioOn }
+            toggleOn={ this.toggleRadioOn }
+            nextSong={ this.nextSong }
+            songPlaying={ this.state.songPlaying } />
+        </LayoutWrap>
+
+        <LayoutWrap degrees={ 11 } top={ 96 } left={ 528 } draggable>
+          <PostIt text="Create non-boring CV for job applications" />
+        </LayoutWrap>
+
+        <LayoutWrap degrees={ -6 } top={ 48 } left={ 704 } draggable>
+          <PostIt text="Start using Wunderlist instead of all these f*cking post-its" />
+        </LayoutWrap>
+        
       </Scrollbars>
     )
   }
@@ -299,53 +283,15 @@ const Background = styled.div`
 const FifaDiscWrap = styled.div`
   position: fixed;
   width: 320px;
-  top: 0;
-  left: 42vw;
   z-index: 10;
+  top: 0;
+  left: 50vw;
   border-radius: 50%;
   box-shadow: 0px 0px 100px 10px rgba(0,0,0,0.75);
-  transform: translateY(-200%) rotate(0deg);
+  transform: translate3d(-50%, -200%, 0) rotate(0deg);
   transition: transform 600ms cubic-bezier(0.4,0.75,0.6,1);
 
-  &.ejected { transform: translateY(-50%) rotate(3450deg); }
+  &.ejected { transform: translate3d(-50%, -50%, 0) rotate(3450deg); }
 
   img { width: 100%; }
-`
-const CvWrap = styled.div`
-  position: absolute;
-  display: block;
-  right: 140px;
-  top: ${scaler(10)};
-  backface-visibility: hidden; { /* Smoothing edges on transform-rotated elements in WebKit */ }
-  ${'' /* transform: translateY( -100vh );
-  animation: ${slideDownIntoView`[24, 2]`} 400ms cubic-bezier(0.4,0.75,0.6,1) forwards; */}
-`
-const ButtonRoundWrap = styled.div`
-  position: absolute;
-  top: ${scaler(4)};
-  right: 360px;
-  ${'' /* transform: translateY( -100vh );
-  animation: ${slideDownIntoView`[100, -16]`} 400ms 200ms cubic-bezier(0.4,0.75,0.6,1) forwards; */}
-`
-const KeyboardWrap = styled.div`
-  position: absolute;
-  top: ${scaler(38)};
-  left: ${scaler(16)};
-`
-const RadioWrap = styled.div`
-  position: absolute;
-  top: ${scaler(16)};
-  left: ${scaler(12)};
-  ${'' /* opacity: 0;
-  animation: ${fallDown} 100ms 1000ms ease-in forwards; */}
-`
-const PostItWrap = styled.div`
-  position: absolute;
-  top: ${scaler(12)};
-  left: ${scaler(66)};
-`
-const PostIt2Wrap = styled.div`
-  position: absolute;
-  top: ${scaler(6)};
-  left: ${scaler(88)};
 `
