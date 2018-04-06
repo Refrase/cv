@@ -154,7 +154,9 @@ export default class App extends Component {
 
         <Background />
 
-        <LayoutWrap degrees={ 2 } top={ 80 } right={ 140 } draggable>
+        <LayoutWrap degrees={ 2 } top={ 80 } right='5vw' draggable
+          topResponsive={{ belowDesktop: '200px', belowTablet: '400px', belowMobile: '200px' }}
+          rightResponsive={{ belowDesktop: '10vw', belowTablet: '20vw', belowMobile: '100vw' }}>
           <Cv
             meta={ this.state.meta }
             jobs={ this.state.jobs }
@@ -163,7 +165,7 @@ export default class App extends Component {
             jobChanged={ this.state.jobChanged } />
         </LayoutWrap>
 
-        <LayoutWrap degrees={ -16 } top={ 32 } right={ 360 } zIndex={ 90 } draggable>
+        <LayoutWrap degrees={ -16 } top={ 32 } right='calc( 5vw + 220px )' zIndex={ 90 } draggable>
           <ButtonRound words={ this.state.buttonWords } onClick={ () => this.sealDestiny() } />
         </LayoutWrap>
 
@@ -171,7 +173,7 @@ export default class App extends Component {
           <img draggable="false" src={ fifaDisc } alt="FIFA98 disc"/>
         </FifaDiscWrap>
 
-        <LayoutWrap degrees={ -2 } top={ 304 } left={ 128 } draggable>
+        <LayoutWrap degrees={ -2 } top={ 304 } left='5vw' draggable>
           <Keyboard
             onFastBackwards={ this.previousSong }
             onPlay={ () => this.setState({ radioOn: !this.state.radioOn }) }
@@ -179,7 +181,7 @@ export default class App extends Component {
             onEject={ () => this.setState({ discEjected: !this.state.discEjected }) } />
         </LayoutWrap>
 
-        <LayoutWrap degrees={ -12 } top={ 128 } left={ 96 } zIndex={ 100 } draggable>
+        <LayoutWrap degrees={ -12 } top={ 128 } left='3vw' zIndex={ 100 } draggable>
           <Radio
             on={ this.state.radioOn }
             toggleOn={ this.toggleRadioOn }
@@ -187,12 +189,12 @@ export default class App extends Component {
             songPlaying={ this.state.songPlaying } />
         </LayoutWrap>
 
-        <LayoutWrap degrees={ 11 } top={ 96 } left={ 528 } draggable>
-          <PostIt text="Create non-boring CV for job applications" />
+        <LayoutWrap degrees={ -20 } top={ -4 } right={ 510 } draggable>
+          <PostIt text="Start using Wunderlist instead of these fucking post-its" />
         </LayoutWrap>
 
-        <LayoutWrap degrees={ -6 } top={ 48 } left={ 704 } draggable>
-          <PostIt text="Start using Wunderlist instead of all these f*cking post-its" />
+        <LayoutWrap degrees={ 11 } top={ 100 } right={ 660 } draggable>
+          <PostIt text="Create non-boring CV for job applications" />
         </LayoutWrap>
 
       </Scrollbars>
