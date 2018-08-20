@@ -154,9 +154,11 @@ export default class App extends Component {
 
         <Background />
 
-        <LayoutWrap degrees={ 2 } top={ 80 } right='5vw' draggable
-          topResponsive={{ belowDesktop: '200px', belowTablet: '400px', belowMobile: '200px' }}
-          rightResponsive={{ belowDesktop: '10vw', belowTablet: '20vw', belowMobile: '100vw' }}>
+        <LayoutWrap degrees={ 2 } draggable
+          top='80px'
+          topResponsive={{ wideDown: '80px', mediumDown: '200px' }}
+          right='5vw'
+          rightResponsive={{ wideDown: '5vw', mediumDown: '5vw', narrowDown: '0' }}>
           <Cv
             meta={ this.state.meta }
             jobs={ this.state.jobs }
@@ -165,7 +167,11 @@ export default class App extends Component {
             jobChanged={ this.state.jobChanged } />
         </LayoutWrap>
 
-        <LayoutWrap degrees={ -16 } top={ 32 } right='calc( 5vw + 220px )' zIndex={ 90 } draggable>
+        <LayoutWrap degrees={ -16 } zIndex={ 90 } draggable
+          top='32px'
+          topResponsive={{ wideDown: '32px', mediumDown: '200px' }}
+          right='calc( 5vw + 220px )'
+          rightResponsive={{ wideDown: 'calc( 5vw + 220px )', mediumDown: 'calc( 5vw + 220px )', narrowDown: '200px' }}>
           <ButtonRound words={ this.state.buttonWords } onClick={ () => this.sealDestiny() } />
         </LayoutWrap>
 
@@ -173,7 +179,9 @@ export default class App extends Component {
           <img draggable="false" src={ fifaDisc } alt="FIFA98 disc"/>
         </FifaDiscWrap>
 
-        <LayoutWrap degrees={ -2 } top={ 304 } left='5vw' draggable>
+        <LayoutWrap degrees={ -2 } top='304px' right='370px' draggable
+          topResponsive={{ wideDown: '600px', mediumDown: '650px', narrowDown: '900px' }}
+          rightResponsive={{ wideDown: '370px', mediumDown: '370px', narrowDown: '20px' }}>
           <Keyboard
             onFastBackwards={ this.previousSong }
             onPlay={ () => this.setState({ radioOn: !this.state.radioOn }) }
@@ -181,7 +189,12 @@ export default class App extends Component {
             onEject={ () => this.setState({ discEjected: !this.state.discEjected }) } />
         </LayoutWrap>
 
-        <LayoutWrap degrees={ -12 } top={ 128 } left='3vw' zIndex={ 100 } draggable>
+        <LayoutWrap degrees={ -12 } zIndex={ 100 } draggable
+          top='128px'
+          topResponsive={{ wideDown: '128px', mediumDown: '64px' }}
+          left='3vw'
+          leftResponsive={{ wideDown: '10vw', mediumDown: '10vw', narrowDown: 'auto' }}
+          rightResponsive={{ wideDown: 'auto', mediumDown: 'auto', narrowDown: '25px' }}>
           <Radio
             on={ this.state.radioOn }
             toggleOn={ this.toggleRadioOn }
@@ -189,11 +202,15 @@ export default class App extends Component {
             songPlaying={ this.state.songPlaying } />
         </LayoutWrap>
 
-        <LayoutWrap degrees={ -20 } top={ -4 } right={ 510 } draggable>
+        <LayoutWrap degrees={ -20 } top='-4px' right='510px' draggable
+          topResponsive={{ wideDown: '230px', mediumDown: '250px', narrowDown: '1300px' }}
+          rightResponsive={{ wideDown: '480px', mediumDown: '420px', narrowDown: '80px' }}>
           <PostIt text="Start using Wunderlist instead of these fucking post-its" />
         </LayoutWrap>
 
-        <LayoutWrap degrees={ 11 } top={ 100 } right={ 660 } draggable>
+        <LayoutWrap degrees={ 11 } top='100px' right='660px' draggable
+          topResponsive={{ wideDown: '334px', mediumDown: '390px', narrowDown: '1440px' }}
+          rightResponsive={{ wideDown: '610px', mediumDown: '420px', narrowDown: '80px' }}>
           <PostIt text="Create non-boring CV for job applications" />
         </LayoutWrap>
 
@@ -206,6 +223,7 @@ export default class App extends Component {
 // Packages
 import styled, { injectGlobal } from 'styled-components'
 import { transparentize } from 'polished'
+import { generateMedia } from 'styled-media-query'
 // Assets
 import noiseTile from 'assets/images/noisetile-800-100-4-monochrome.png' // http://noisepng.com/
 import woodTexture from 'assets/images/wood-texture.jpeg'
@@ -213,6 +231,9 @@ import woodTexture from 'assets/images/wood-texture.jpeg'
 import { colors, fonts } from 'utils/styles/vars'
 import { scaler } from 'utils/styles/helpers'
 import { fadeIn, slideDownIntoView, fallDown } from 'utils/styles/animations'
+import { breakpoints } from 'utils/scripts/breakpoints'
+
+const customMediaQueries = generateMedia(breakpoints)
 
 const plankWidth = 240
 
@@ -281,11 +302,16 @@ const Background = styled.div`
     border-bottom: 6px solid ${colors.base.darker[6]};
     backface-visibility: hidden; { /* Smoothing edges on transform-rotated elements in WebKit */ }
   }
+
+  ${ customMediaQueries.lessThan( 'wide' )`
+    background: none;
+    &:after { box-shadow: none; top: 0; transform: rotate(0deg); }
+  `}
 `
 const FifaDiscWrap = styled.div`
   position: fixed;
   width: 320px;
-  z-index: 10;
+  z-index: 10000;
   top: 0;
   left: 50vw;
   border-radius: 50%;
