@@ -197,7 +197,7 @@ const Wrap = styled.div`
     overflow: hidden;
 
     &.itemAdded {
-    max-height: 320px; {/* 5 jobs visible */}
+    max-height: 318px; {/* 5 jobs visible */}
 
       &:after {
         content: '';
