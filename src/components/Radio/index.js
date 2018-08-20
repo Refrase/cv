@@ -65,14 +65,14 @@ export default class Radio extends Component {
     // Calculate the length of each line relative to inner display width, so that animation can be adjusted with durations (%) that make each line flow smoothly
     // 60 as the animation 'pauses' at 60% (see keyframes below)
     const displayToLineRatios = []
-    for ( let i = 0; i < this.state.lineLengths.length; i++ ) displayToLineRatios.push(60 - (60 / (1 + this.state.lineLengths[i] / this.innerDisplayWidth)))
+    for ( let i = 0; i < this.state.lineLengths.length; i++ ) displayToLineRatios.push(60 - (60 / (1 + this.state.lineLengths[i] / this.state.innerDisplayWidth)))
 
     const { songPlaying } = this.props
 
     return(
       <RadioWithStyle
         lineLengths={ this.state.lineLengths }
-        innerDisplayWidth={ this.innerDisplayWidth }
+        innerDisplayWidth={ this.state.innerDisplayWidth }
         displayToLineRatios={ displayToLineRatios }>
         <div className="display">
           <div className="display_inner" ref={ (innerDisplay) => this.innerDisplay = innerDisplay }>
