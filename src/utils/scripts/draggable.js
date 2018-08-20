@@ -13,6 +13,7 @@ export function dragElement( handle ) {
   }
 
   function elementDrag(e) {
+    e.preventDefault()
     e = e || window.event
     // Calculate the new cursor position
     pos1 = pos3 - e.clientX
