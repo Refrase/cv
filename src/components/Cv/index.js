@@ -138,7 +138,7 @@ const Wrap = styled.div`
     width: 100%;
     padding-bottom: ${scaler(1)};
 
-    .listWrap {  margin: 0;  }
+    .listWrap { margin: 0; }
 
     ul {
       list-style: none;
@@ -190,27 +190,6 @@ const Wrap = styled.div`
     }
   }
 
-  .jobs {
-    position: relative;
-    max-height: 274px;
-    transition: max-height 200ms ease-out;
-    overflow: hidden;
-
-    &.itemAdded {
-    max-height: 318px; {/* 5 jobs visible */}
-
-      &:after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: ${scaler(2)};
-        background: linear-gradient(to bottom, rgba(255,255,255,0), ${transparentize(0.9, colors.base.darker[0])} );
-      }
-    }
-  }
-
   .links {
     padding: ${scaler(1)} ${scaler(2)};
     width: 100%;
@@ -244,6 +223,27 @@ const Wrap = styled.div`
           background-color: ${colors.light.darker[0]};
           transform: scaleY(1) translateY(-1px);
         }
+      }
+    }
+  }
+
+  .jobs {
+    position: relative;
+    max-height: 274px;
+    transition: max-height 200ms ease-out;
+    overflow: hidden;
+
+    &.itemAdded {
+    max-height: 318px; {/* 5 jobs visible */}
+
+      &:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: ${scaler(2)};
+        background: linear-gradient(to bottom, rgba(255,255,255,0), ${transparentize(0.9, colors.base.darker[0])} );
       }
     }
   }
