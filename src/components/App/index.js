@@ -90,7 +90,8 @@ export default class App extends Component {
         { title: 'Question!', artist: 'System of a Down', release: 'Mezmerize' },
         { title: '8(circle)', artist: 'Bon Iver', release: '22, A Million' },
         { title: 'Mockingbird', artist: 'Eminem', release: 'Encore' }
-      ]
+      ],
+      screenLightLevel: 0
     }
 
   }
@@ -148,9 +149,24 @@ export default class App extends Component {
     this.setState({ songPlaying: this.state.songs[indexOfPreviousSong] })
   }
 
+  turnScreenLightUp() { this.state.screenLightLevel < 0.95 ? this.setState({ screenLightLevel: parseFloat((this.state.screenLightLevel + 0.1).toFixed(1)) }) : this.setState({ screenLightLevel: 1 }) }
+  turnScreenLightDown() { this.state.screenLightLevel > 0.05 ? this.setState({ screenLightLevel: parseFloat((this.state.screenLightLevel - 0.1).toFixed(1)) }) : this.setState({ screenLightLevel: 0 }) }
+
   render() {
-    return(
+    return (
       <Scrollbars>
+
+        <div className="screenLightOverlay"
+          style={{
+            position: 'absolute',
+            width: '100vw',
+            height: '100vh',
+            top: 0,
+            left: 0,
+            backgroundColor: 'black',
+            opacity: this.state.screenLightLevel,
+            zIndex: 1000000,
+            pointerEvents: 'none' }}></div>
 
         <Background />
 
@@ -179,14 +195,16 @@ export default class App extends Component {
           <img draggable="false" src={ fifaDisc } alt="FIFA98 disc"/>
         </FifaDiscWrap>
 
-        <LayoutWrap degrees={ -2 } top='304px' right='370px' draggable
+        <LayoutWrap degrees={ -2 } top='304px' right='35vw' draggable
           topResponsive={{ wideDown: '600px', mediumDown: '650px', narrowDown: '900px' }}
           rightResponsive={{ wideDown: '370px', mediumDown: '370px', narrowDown: '20px' }}>
           <Keyboard
             onFastBackwards={ this.previousSong }
             onPlay={ () => this.setState({ radioOn: !this.state.radioOn }) }
             onFastForward={ this.nextSong }
-            onEject={ () => this.setState({ discEjected: !this.state.discEjected }) } />
+            onEject={ () => this.setState({ discEjected: !this.state.discEjected }) }
+            onLightDown={ this.turnScreenLightDown.bind(this) }
+            onLightUp={ this.turnScreenLightUp.bind(this) } />
         </LayoutWrap>
 
         <LayoutWrap degrees={ -12 } zIndex={ 100 } draggable
@@ -202,13 +220,13 @@ export default class App extends Component {
             songPlaying={ this.state.songPlaying } />
         </LayoutWrap>
 
-        <LayoutWrap degrees={ -20 } top='-4px' right='510px' draggable
+        <LayoutWrap degrees={ -20 } top='-4px' right='35vw' draggable
           topResponsive={{ wideDown: '230px', mediumDown: '250px', narrowDown: '1300px' }}
           rightResponsive={{ wideDown: '480px', mediumDown: '420px', narrowDown: '80px' }}>
           <PostIt text="Start using Wunderlist instead of these fucking post-its" />
         </LayoutWrap>
 
-        <LayoutWrap degrees={ 11 } top='100px' right='660px' draggable
+        <LayoutWrap degrees={ 11 } top='110px' right='40vw' draggable
           topResponsive={{ wideDown: '334px', mediumDown: '390px', narrowDown: '1440px' }}
           rightResponsive={{ wideDown: '610px', mediumDown: '420px', narrowDown: '80px' }}>
           <PostIt text="Create non-boring CV for job applications" />

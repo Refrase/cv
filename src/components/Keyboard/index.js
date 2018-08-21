@@ -15,7 +15,16 @@ export default class Keyboard extends Component {
   render() {
     return(
       <KeyboardWithStyle>
-        { keys.slice(0, 7).map( ( key, index ) => {
+        { keys.slice(0, 1).map( ( key, index ) => {
+          return ( <Key key={ index } paths={ key.paths } width={ key.width } height={ key.height } /> )
+        })}
+        <div className="keyWrap" onClick={ this.props.onLightDown }>
+          <Key className="lightDown" paths={ keys[1].paths } width={ keys[1].width } height={ keys[1].height } />
+        </div>
+        <div className="keyWrap" onClick={ this.props.onLightUp }>
+          <Key className="lightUp" paths={ keys[2].paths } width={ keys[2].width } height={ keys[2].height } />
+        </div>
+        { keys.slice(3, 7).map( ( key, index ) => {
           return ( <Key key={ index } paths={ key.paths } width={ key.width } height={ key.height } /> )
         })}
         <div className="keyWrap" onClick={ this.props.onFastBackwards }>
@@ -68,7 +77,9 @@ Keyboard.propTypes = {
   onBackwards: PropTypes.func,
   onPlay: PropTypes.func,
   onFastForward: PropTypes.func,
-  onEject: PropTypes.func
+  onEject: PropTypes.func,
+  onLightDown: PropTypes.func,
+  onLightUp: PropTypes.func
 }
 
 // ----- STYLING ----- //
