@@ -91,7 +91,7 @@ export default class App extends Component {
         { title: '8(circle)', artist: 'Bon Iver', release: '22, A Million' },
         { title: 'Mockingbird', artist: 'Eminem', release: 'Encore' }
       ],
-      screenLightLevel: 0
+      screenLightLevel: 1
     }
 
   }
@@ -154,19 +154,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <Scrollbars>
-
-        <div className="screenLightOverlay"
-          style={{
-            position: 'absolute',
-            width: '100vw',
-            height: '100vh',
-            top: 0,
-            left: 0,
-            backgroundColor: 'black',
-            opacity: this.state.screenLightLevel,
-            zIndex: 1000000,
-            pointerEvents: 'none' }}></div>
+      <Scrollbars style={{ opacity: this.state.screenLightLevel }}>
 
         <Background />
 
@@ -265,7 +253,7 @@ injectGlobal`
     -moz-osx-font-smoothing: grayscale;
   }
   html {
-    background: ${colors.base.darker[4]};
+    background: black;
     font-size: 62.5%; /* Setting 1em to equal 10px */
   }
   body { font-size: 1.4rem; /* Equals 14px as font-size: 62.5% is set on html */ }
