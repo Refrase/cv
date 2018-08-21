@@ -1,25 +1,26 @@
 const webpack = require( 'webpack' );
 const path = require( 'path' );
 
-module.exports = function() {
+module.exports = function( env = {} ) {
+
+  if ( env.production ) process.env.NODE_ENV = 'production';
+  if ( process.env.NODE_ENV == 'production' ) __webpack_public_path__ = 'http://www.andreasreffstrup.com/cv/';
 
   return {
 
     entry: ['babel-polyfill', './src/index.js'],
-
-    devtool: '#cheap-module-eval-source-map',
 
     // devServer: {
     //   contentBase: './dist',
     //   hot: true
     // },
 
-    plugins: [ new webpack.HotModuleReplacementPlugin() ],
+    plugins: env.production ? [] : [ new webpack.HotModuleReplacementPlugin() ],
 
     output: {
       path: path.resolve( __dirname, 'dist' ),
       filename: 'index.js',
-      publicPath: 'http://localhost:8080/dist/'
+      publicPath: env.production ? __webpack_public_path__ : 'http://localhost:8080/dist/'
     },
 
     module: {
