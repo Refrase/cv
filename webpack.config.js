@@ -7,15 +7,20 @@ module.exports = function() {
 
     entry: ['babel-polyfill', './src/index.js'],
 
+    devtool: '#cheap-module-eval-source-map',
+
+    // devServer: {
+    //   contentBase: './dist',
+    //   hot: true
+    // },
+
+    plugins: [ new webpack.HotModuleReplacementPlugin() ],
+
     output: {
       path: path.resolve( __dirname, 'dist' ),
       filename: 'index.js',
       publicPath: 'http://localhost:8080/dist/'
     },
-
-    plugins: [ new webpack.HotModuleReplacementPlugin() ],
-
-    devtool: '#cheap-module-eval-source-map',
 
     module: {
       rules: [
